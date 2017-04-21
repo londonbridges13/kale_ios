@@ -1,0 +1,6 @@
+framework module Pods_KaleTests {
+  umbrella header "Pods-KaleTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
