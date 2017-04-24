@@ -1,7 +1,32 @@
 PODS:
   - Alamofire (4.2.0)
   - AMScrollingNavbar (3.0.0)
+  - Bolts (1.8.4):
+    - Bolts/AppLinks (= 1.8.4)
+    - Bolts/Tasks (= 1.8.4)
+  - Bolts/AppLinks (1.8.4):
+    - Bolts/Tasks
+  - Bolts/Tasks (1.8.4)
+  - FacebookCore (0.2.0):
+    - Bolts (~> 1.8)
+    - FBSDKCoreKit (~> 4.15)
+  - FacebookLogin (0.2.0):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.2)
+    - FBSDKCoreKit (~> 4.15)
+    - FBSDKLoginKit (~> 4.15)
+  - FacebookShare (0.2.0):
+    - Bolts (~> 1.8)
+    - FacebookCore (~> 0.2)
+    - FBSDKCoreKit (~> 4.15)
+    - FBSDKShareKit (~> 4.15)
   - FaveButton (2.0.2)
+  - FBSDKCoreKit (4.18.0):
+    - Bolts (~> 1.7)
+  - FBSDKLoginKit (4.18.0):
+    - FBSDKCoreKit
+  - FBSDKShareKit (4.18.0):
+    - FBSDKCoreKit
   - Hero (0.3.3)
   - ImagePicker (2.0.0)
   - Jelly (1.0.2)
@@ -20,6 +45,9 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.0)
   - AMScrollingNavbar
+  - FacebookCore
+  - FacebookLogin
+  - FacebookShare
   - FaveButton
   - Hero (from `https://github.com/lkzhao/Hero.git`)
   - ImagePicker
@@ -42,7 +70,14 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
   AMScrollingNavbar: aa894c559c80ffa917d0fdc40d8b42be7c6efe15
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  FacebookCore: 2cb3f0fbff218e9d3119cec84bae983b232412de
+  FacebookLogin: c9d606504735780a9e3002465a615512e0a691a5
+  FacebookShare: 8e9ee8ea06505e6a1d3d719b0cc63e840fb8aaeb
   FaveButton: e26f7964669b4befda7d92a6779be7b2a70ab161
+  FBSDKCoreKit: 15fef8804a4629f98c6f4e55e81a76c9d725d85e
+  FBSDKLoginKit: 6773073e970b2b15fb12e451ce7f11da0532b880
+  FBSDKShareKit: 0b8d6cc3f103c75297eb3c62caec284a2ccf1b9e
   Hero: d0f6186f2deb03ce85e9e5bf7f202538b0a57dda
   ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
   Jelly: a2d6e756245bd678ebdaf5fd3923b3a43a87453f
@@ -54,6 +89,6 @@ SPEC CHECKSUMS:
   Realm: bc829ad0ef3d4eea70c34cfcc3b1704d18d50df1
   RealmSwift: a4d4abbf0088c337cab5b738054395842e4b3052
 
-PODFILE CHECKSUM: 594d04490fea410f3889be4c2040b5d0d9b8184c
+PODFILE CHECKSUM: c8b29b65504b708c469f2c5b46f13a0f85e6a945
 
 COCOAPODS: 1.2.0.beta.1

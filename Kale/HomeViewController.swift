@@ -14,6 +14,7 @@ import Alamofire
 import Kingfisher
 import PullToMakeSoup
 import Foundation
+import AMScrollingNavbar
 //import RAReorderableLayout
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource, ArtcleCellDelegate {// UICollectionViewDelegate, UICollectionViewDataSource {
@@ -21,6 +22,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var tableview: UITableView!
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var header: UIView!
+    @IBOutlet var statusbar_view: UIView!
     @IBOutlet var topicLabel : UILabel!
     
 
@@ -35,6 +37,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var topic_viewed = "Handpicked"
     var selected_article_url : String?
     var selected_article : Article?
+    var loadedHomeVC = false
     //var dragAndDropManager : KDDragAndDropManager?
 
     override func viewDidLoad(){
@@ -44,18 +47,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
        self.collectionView.dataSource = self
         (collectionView.collectionViewLayout as! RAReorderableLayout).scrollDirection = .horizontal
 
-       
+        self.tabBarController?.tabBar.isHidden = true
+
+        let pop_blue = UIColor(colorLiteralRed: 29/255, green: 171/255, blue: 184/255, alpha: 1)
+        header.backgroundColor = pop_blue
+        statusbar_view.backgroundColor = pop_blue
+        
         set_first_topic()
         self.tableview.delegate = self
         self.tableview.dataSource = self
         self.topicLabel.text = self.selected_topic
-        self.initial_load()
-        self.check_time_to_get_feedback()
         self.inform_user()
+        self.does_user_exist()
+        self.check_time_to_get_feedback()
         
-        //let adelayInSeconds = 1.25
-      //  DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + adelayInSeconds) {
-       // }
         // Do any additional setup after loading the view.
     }
 
@@ -63,14 +68,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillAppear(animated)
        // self.check_for_requery() no longer needed 
         
-//        tableview.addPullToRefresh(PullToMakeSoup(at: .top)) {
-//            // action to be performed (pull data from some source)
-//            let adelayInSeconds = 1.25
-//              DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + adelayInSeconds) {
-//                self.tableview.endRefreshing(at: .top)
-//             }
-//
-//        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -82,8 +79,111 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func initial_load(){
-        get_topics()
-        get_handpicked_articles()
+        // if user exists (with name and email), then display regular load
+        // else go to loadingVC
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            print("User Exists")
+            if loadedHomeVC == false{
+                self.display_user_view()
+            }else{
+                self.display_floating_tab_bar()
+            }
+            self.get_topics()
+            self.get_handpicked_articles()
+        }else{
+            // no longer needed, this is down in the "does_user_have_topics" and "does_user_exist"
+            // go to loadVC which will redirect you to onboarding
+            print("Open loadingVC")
+            
+            var loadVC = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            self.view.addSubview(loadVC.view)
+            self.addChildViewController(loadVC)
+
+        }
+    }
+    
+    func does_user_exist(){
+        print("Checking for user")
+        //display loading for 2 seconds, to hide the validation
+        if loadedHomeVC == false{
+            // won't load everytime user loads home tab
+            start_loading(load_time: 2)
+        }
+        var answer : String?
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "uemail": user!.email!
+            ]
+            print("User Token: \(user!.access_token!)")
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/does_user_exist", method: .post, parameters: parameters).responseJSON { (response) in
+                if response.result.value != nil{
+                    if let result = response.result.value as? String {
+                        print("Does User Exist: \(result)")
+                        answer = result
+                        if answer == "no"{
+                            // load_vc
+                            self.load_VC()
+                        }else{
+                            self.does_user_have_topics()
+                        }
+                    }
+                }
+            }
+        }else{
+            // no user, go to onboard
+//            self.segue_to_onboarding()
+            self.load_VC()
+        }
+    }
+    
+    
+    
+    func does_user_have_topics(){
+        print("Checking for user")
+        var answer : String?
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "uemail": user!.email!
+            ]
+            print("User Token: \(user!.access_token!)")
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/does_user_have_topics", method: .post, parameters: parameters).responseJSON { (response) in
+                if response.result.value != nil{
+                    if let result = response.result.value as? String {
+                        print("Does User Have Topics: \(result)")
+                        answer = result
+                        if answer == "no"{
+                            self.load_VC()
+                        }else{
+                            // Run the initial load
+                            self.initial_load()
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+
+    
+    
+    func load_VC(){
+//        performSegue(withIdentifier: "loadVC", sender: self)
+        
+        print("Open loadingVC")
+        
+        var loadVC = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+//        present(loadVC, animated: true, completion: nil)
+        self.view.addSubview(loadVC.view)
+        self.addChildViewController(loadVC)
+
     }
     
     //collectionView
@@ -287,7 +387,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     cell.likeButton.isSelected = false
                 }else{
                     // set like count label and heartbutton
-                    cell.likeCountLabel.text = "\(cell.l_article!.likes)"
+                    if cell.l_article!.likes == 0{
+                        cell.likeCountLabel.text = ""
+                    }else{
+                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
+                    }
                 }
                 
                 if cell.l_article!.user_like == true{
@@ -424,7 +528,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 "access_token": user!.client_token!,
                 "utoken": user!.access_token!
             ]
-           // Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/topics/get_topics", method: .post, parameters: parameters).responseJSON { (response) in
             Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/get_topics", method: .post, parameters: parameters).responseJSON { (response) in
                 if let topicss = response.result.value as? NSArray{
                     for each in topicss{
@@ -435,10 +538,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                             if title != nil{
                                 t.title = title!
                             }
-                            //                            var desc = topic["description"] as? String?
-                            //                            if desc != nil{
-                            //                                t.desc = desc!
-                            //                            }
+                       
                             var id = topic["id"] as? Int
                             if id != nil{
                                 t.id = id!
@@ -934,12 +1034,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if user != nil{
             if user!.knows_to_swipe_topics == false{
                 // user hasn't been informed of the swiping feature, inform them
-                self.display_guide_for_topics()
+                print("did not inform user")
+
+                let adelayInSeconds = 0.25
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + adelayInSeconds) {
+                    self.display_guide_for_topics()
+                }
+            }else{
+                print("informed user")
             }
         }
     }
     func display_guide_for_topics(){
         //Jelly Animation required
+        print("display_guide_for_topics")
         self.guided_user()
         let viewController : SwipeAllTopicsAlertViewController = self.storyboard?.instantiateViewController(withIdentifier: "SwipeAllTopicsAlertViewController") as! SwipeAllTopicsAlertViewController
         
@@ -979,13 +1087,110 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     
-    func start_loading(){
+    func display_user_view(){
+        // display profile cell and remove tab
+        self.tabBarController?.tabBar.isHidden = true
+
+        let alert = UserView()
+        let xpp = 15//self.view.frame.width / 2 - (self.view.frame.width - 30 / 2)
+        alert.frame = CGRect(x: CGFloat(xpp), y: self.view.frame.height - 85, width: self.view.frame.width - 30 , height: 75)
+        alert.layer.shadowColor = UIColor.black.cgColor
+        alert.layer.shadowOpacity = 0.6
+        alert.layer.shadowOffset = CGSize(width: 1, height: 1.7)
+        alert.layer.shadowRadius = 2
+        alert.alpha = 0
+        self.view.addSubview(alert)
+        alert.fadeIn()
+        alert.profileButton.addTarget(self, action: #selector(HomeViewController.segue_to_profile), for: .touchUpInside)
+        alert.transform = CGAffineTransform(translationX: 0, y: 90)
+
+        var delayInSeconds = 0.25
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+            
+            UIView.animate(withDuration: 0.450) {
+                alert.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.4) {
+                UIView.animate(withDuration: 0.250) {
+                    alert.transform = CGAffineTransform(translationX: 0, y: 90)
+                }
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+                    self.display_floating_tab_bar()
+                }
+            }
+        }
+    }
+    
+    func display_floating_tab_bar(){
+        // display profile cell and remove tab
+        self.tabBarController?.tabBar.isHidden = true
+        
+        let alert = FloatingTabBar()
+        let xpp = 15//self.view.frame.width / 2 - (self.view.frame.width - 30 / 2)
+        alert.frame = CGRect(x: CGFloat(xpp), y: self.view.frame.height - 60, width: self.view.frame.width - 30 , height: 55)
+        alert.layer.shadowColor = UIColor.black.cgColor
+        alert.layer.shadowOpacity = 0.6
+        alert.layer.shadowOffset = CGSize(width: 1, height: 1.3)
+        alert.layer.shadowRadius = 2
+        self.view.addSubview(alert)
+        alert.profileButton.addTarget(self, action: #selector(HomeViewController.segue_to_profile), for: .touchUpInside)
+        alert.homeButton.addTarget(self, action: #selector(HomeViewController.tapped_home_button), for: .touchUpInside)
+        alert.transform = CGAffineTransform(translationX: 0, y: 90)
+        
+        var delayInSeconds = 0.25
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+            
+            UIView.animate(withDuration: 0.450) {
+                alert.transform = CGAffineTransform(translationX: 0, y: 0)
+            }
+        }
+        
+    }
+    
+    
+    func display_tab_bar(view : UIView)-> UIView{
+        
+        let alert = FloatingTabBar()
+        let xpp = 15//self.view.frame.width / 2 - (self.view.frame.width - 30 / 2)
+        alert.frame = CGRect(x: CGFloat(xpp), y: view.frame.height - 60, width: view.frame.width - 30 , height: 55)
+        alert.layer.shadowColor = UIColor.black.cgColor
+        alert.layer.shadowOpacity = 0.6
+        alert.layer.shadowOffset = CGSize(width: 1, height: 1.3)
+        alert.layer.shadowRadius = 2
+        view.addSubview(alert)
+        
+        return alert
+    }
+    
+    func segue_to_profile(){
+        // segue to profile using right swipe
+        print("seguing")
+        performSegue(withIdentifier: "segue_to_profile", sender: self)
+    }
+    
+    func tapped_home_button(){
+        // move to the top of the tableview
+        self.tableview.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+        
+        
+        // move the header (with collection view) down
+        // had to delay time because header goes back when the tableview is scrolling
+        var delayInSeconds = 0.5
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+            let up = CGAffineTransform(translationX: 0, y: 0)
+            UIView.animate(withDuration: 0.400, animations: {
+                self.header?.transform = up
+            })
+        }
+
+    }
+    func start_loading(load_time: Double = 1.25){
         var yp = view.frame.height / 2 - ((view.bounds.width) / 2) - 50
         
         var loadview = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         let undercooked_image = UIImageView(frame: CGRect(x: loadview.frame.width / 2 - 23, y: loadview.frame.height / 2 - 96, width: 45, height: 76))
         undercooked_image.contentMode = .scaleAspectFit
-        undercooked_image.image = UIImage(named: "white_u")
+        undercooked_image.image = UIImage(named: "white_k")
         
         let loadLabel = UILabel(frame: CGRect(x: 0, y: loadview.frame.height / 2 - 96, width: loadview.frame.width, height: 52))
         loadLabel.textColor = UIColor.white
@@ -997,9 +1202,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         loadview.addSubview(loadLabel)
             
 //        loadview.addSubview(undercooked_image)
-        let pop_red = UIColor(colorLiteralRed: 255/255, green: 103/255, blue: 102/255, alpha: 1)
+//        let red = UIColor(colorLiteralRed: 255/255, green: 103/255, blue: 102/255, alpha: 1)
+        let pop_blue = UIColor(colorLiteralRed: 29/255, green: 171/255, blue: 184/255, alpha: 1)
 
-        loadview.backgroundColor = pop_red
+        loadview.backgroundColor = pop_blue
         loadview.alpha = 0
         self.view.addSubview(loadview)
         loadview.fadeIn(duration: 0.6)
@@ -1021,7 +1227,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.actIndi?.fadeIn(duration: 0.2)
         }
         
-        delayInSeconds = 1.25
+        delayInSeconds = load_time
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
             loadview.fadeOut(duration: 0.6)
             self.tableview.reloadData()
@@ -1095,7 +1301,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let vc: FeedbackViewController = segue.destination as! FeedbackViewController
             vc.from = "home"
         }
+
+        if segue.identifier == "segue_to_profile"{
+            if segue is CustomUnwindSegue {
+                print("CustomUnwindSegue .Push")
+                (segue as! CustomUnwindSegue).animationType = .Push
+            }
+        }
+        
     }
+    
+//    override func segueForUnwinding(to toViewController: UIViewController, from fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue {
+//        let segue = CustomSegue(identifier: identifier, source: fromViewController, destination: toViewController)
+//        segue.animationType = .Push
+//        return segue
+//    }
     
 }
 

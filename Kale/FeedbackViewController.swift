@@ -30,7 +30,7 @@ class FeedbackViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        questionLabel.text = "How do you feel about Undercooked?"
+        questionLabel.text = "How do you feel about Kale?"
         loveButton.addTarget(self, action: #selector(FeedbackViewController.love_it), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(FeedbackViewController.like_it), for: .touchUpInside)
         mehButton.addTarget(self, action: #selector(FeedbackViewController.meh), for: .touchUpInside)

@@ -6,10 +6,13 @@
 //  Copyright © 2016 Lyndon Samual McKay. All rights reserved.
 //
 
-
 import UIKit
 import Alamofire
 import RealmSwift
+
+import FacebookCore
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -36,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let config =     Realm.Configuration(
             // Set the new schema version. This must be greater than the previously used
             // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 2,
+            schemaVersion: 3,
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above
@@ -51,9 +54,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         newObject!["knows_to_swipe_topics"] = value 
                     }
 //                    Added newer versions here
-//                    if oldSchemaVersion < 2 {
-//
-//                    }
+                    if oldSchemaVersion < 3 {
+                        // for acebook login
+                        var value: String? = nil
+                        newObject!["facebook_id"] = value
+                    }
                 }
         }
             
@@ -72,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.check_user_token() // should be after/ in request above
 //        self.check_user()
 
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         return true
     }
@@ -100,6 +106,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    //Facebook
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        return FBSDKApplicationDelegate.sharedInstance().application(
+            app,
+            open: url as URL!,
+            sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String,
+            annotation: options[UIApplicationOpenURLOptionsKey.annotation]
+        )
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(
+            application,
+            open: url as URL!,
+            sourceApplication: sourceApplication,
+            annotation: annotation)
+    }
+
+    
+    
+    
+    
 
     func check_user(){
         let realm = try! Realm()
@@ -127,7 +156,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }else{
                         print("No User Found")
                         // Sign in again, you would have a user.access_token only if you were signed in before
-                        if user!.email != nil && user!.password != nil && user!.client_token != nil{
+                        if user!.email != nil && user!.facebook_id != nil && user!.client_token != nil{
+                            // Try facebook login 
+                            self.request_facebook_login(email: user!.email!, facebook_id: user!.facebook_id!, access_token: user!.client_token!)
+                        }else if user!.email != nil && user!.password != nil && user!.client_token != nil{
                             self.request_sign_in(email: user!.email!, password: user!.password!, access_token: user!.client_token!)
                             print("Couldn't find User, Requesting Sign In for user_token")
                         }
@@ -211,13 +243,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "utoken": user_token
         ]
         
-        Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/users/signin", method: .post, parameters: parameters).responseJSON { (response) in
+        Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/signin", method: .post, parameters: parameters).responseJSON { (response) in
             if let result = response.result.value as? NSDictionary{
-                //                var id = result["id"] as? Int
-                var name = result["name"] as? String
-                if name != nil{
-//                    self.username = name!
-                }
                 var user_token = result["access_token"] as? String
                 if user_token != nil{
                     // Successfully signed in, segue to Home Tab
@@ -231,6 +258,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
     }
+    
+    func request_facebook_login(email: String, facebook_id: String, access_token: String){
+        
+        let parameters: Parameters = [
+            "access_token": access_token,
+            "uemail": email,
+            "ufacebook_id": facebook_id,
+            ]
+        
+        Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/login_with_facebook", method: .post, parameters: parameters).responseJSON { (response) in
+            if let result = response.result.value as? NSDictionary{
+                var user_token = result["access_token"] as? String
+                if user_token != nil{
+                    // Successfully signed in, segue to Home Tab
+                    print(user_token!)
+                    self.set_user_token(user_token: user_token!)
+                }else{
+                    // Invalid Sign In
+                    print("Invalid Email/Password")
+                }
+            }
+        }
+        
+    }
+
     
     func set_user_token(user_token: String){
         // Sets the user's user_token

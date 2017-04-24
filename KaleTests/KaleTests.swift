@@ -1,15 +1,15 @@
 //
-//  UndercookedTests.swift
-//  UndercookedTests
+//  KaleTests.swift
+//  KaleTests
 //
 //  Created by Lyndon Samual McKay on 11/28/16.
 //  Copyright © 2016 Lyndon Samual McKay. All rights reserved.
 //
 
 import XCTest
-@testable import Undercooked
+@testable import Kale
 
-class UndercookedTests: XCTestCase {
+class KaleTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

@@ -56,7 +56,7 @@ class ChangeNameViewController: UIViewController, UITextFieldDelegate {
                     // it worked. should display user info in the response
                     // save password
                     self.save_name()
-                    self.display_success_alert(message: "Successfully changed Name")
+                    self.display_success_alert(message: "Successfully changed name.")
                 }
             }
         }

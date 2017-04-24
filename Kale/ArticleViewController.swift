@@ -352,7 +352,7 @@ class ArticleViewController: ScrollingNavigationViewController, UIWebViewDelegat
         let textToShare = "\(self.article!.title!)\n"
         
         if let myWebsite = NSURL(string: "\(self.article_url!)") {
-            let objectsToShare = [textToShare, myWebsite] as [Any]
+            let objectsToShare = [myWebsite] as [Any]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             
             //New Excluded Activities Code

@@ -17,6 +17,7 @@ import ImagePicker
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImagePickerDelegate  {
 
     @IBOutlet var tableview: UITableView!
+    @IBOutlet var unwind_to_home_button: UIButton!
     
     var refreshControl: UIRefreshControl!
     var profile_pic : UIImage?
@@ -34,7 +35,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableview.delegate = self
         tableview.dataSource = self
         get_saved_articles()
-
+        display_floating_tab_bar()
+        
         refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
@@ -128,7 +130,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             // Display Article Cell
             let indexx = indexPath.row - 2
             let cell : ArticleCell = tableview.dequeueReusableCell(withIdentifier: "ArticleCellInProduct", for: indexPath) as! ArticleCell
-            if results[indexx].article != nil{
+            if results.count > 0 && results[indexx].article != nil{
                 if results[indexx].article!.title != nil{
                     cell.titleLabel.text = results[indexx].article!.title!
                 }
@@ -211,7 +213,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 "access_token": user!.client_token!,
                 "utoken": user!.access_token!
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/users/profile_pic", method: .post, parameters: parameters).responseJSON { (response) in
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/profile_pic", method: .post, parameters: parameters).responseJSON { (response) in
 //                print(response.result.value!)
                 if response.result.value != nil{
                     self.profile_pic_url = "\(response.result.value!)" // changed for amazon
@@ -467,8 +469,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-
     
+    
+    func display_floating_tab_bar(){
+        // display profile cell and remove tab
+        self.tabBarController?.tabBar.isHidden = true
+        
+        let alert = FloatingTabBar()
+        let xpp = 15//self.view.frame.width / 2 - (self.view.frame.width - 30 / 2)
+        alert.frame = CGRect(x: CGFloat(xpp), y: self.view.frame.height - 60, width: self.view.frame.width - 30 , height: 55)
+        alert.layer.shadowColor = UIColor.black.cgColor
+        alert.layer.shadowOpacity = 0.6
+        alert.layer.shadowOffset = CGSize(width: 1, height: 1.3)
+        alert.layer.shadowRadius = 2
+        self.view.addSubview(alert)
+        alert.homeButton.addTarget(self, action: #selector(ProfileViewController.segue_to_home), for: .touchUpInside)
+      
+        
+    }
+
+
+    func segue_to_home(){
+        performSegue(withIdentifier: "segue_to_home", sender: self)
+//        unwind_to_home_button.sendActions(for: .touchUpInside)
+    }
     
     
     // MARK: - Navigation
@@ -486,8 +510,22 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }else if segue.identifier == "p_s"{
 //            let vc : SettingsViewController = segue.destination as! SettingsViewController
             
+        }else if segue.identifier == "segue_to_home"{
+            
+            if segue is CustomSegue {
+                let vc : HomeViewController = segue.destination as! HomeViewController
+                vc.loadedHomeVC = true
+                print("CustomUnwindSegue .Push")
+                (segue as! CustomSegue).animationType = .Push
+            }
+
         }
     }
     
+    override func segueForUnwinding(to toViewController: UIViewController, from fromViewController: UIViewController, identifier: String?) -> UIStoryboardSegue {
+        let segue = CustomUnwindSegue(identifier: identifier, source: fromViewController, destination: toViewController)
+        segue.animationType = .Push
+        return segue
+    }
 
 }

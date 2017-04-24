@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1421" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5Wv-Yn-sxD">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,7 +18,7 @@
         <!--Onboard Get Started View Controller-->
         <scene sceneID="p4D-Ee-eeo">
             <objects>
-                <viewController storyboardIdentifier="Onboard Page 1" id="pZh-kO-auh" customClass="OnboardGetStartedViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Onboard Page 1" id="pZh-kO-auh" customClass="OnboardGetStartedViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2DP-iO-gWK"/>
                         <viewControllerLayoutGuide type="bottom" id="i7Z-9M-lhr"/>
@@ -98,7 +98,7 @@
         <!--Onboard Resource View Controller-->
         <scene sceneID="jw4-va-RYc">
             <objects>
-                <viewController storyboardIdentifier="Onboard Page 2" id="qse-HM-O9T" customClass="OnboardResourceViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Onboard Page 2" id="qse-HM-O9T" customClass="OnboardResourceViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="YOl-Id-YLw"/>
                         <viewControllerLayoutGuide type="bottom" id="fND-an-cOg"/>
@@ -150,11 +150,11 @@
                                 <rect key="frame" x="0.0" y="126" width="375" height="477"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OnboardResourceTableViewCell" rowHeight="124" id="65c-0t-lOp" customClass="OnboardResourceTableViewCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="OnboardResourceTableViewCell" rowHeight="124" id="65c-0t-lOp" customClass="OnboardResourceTableViewCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="124"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="65c-0t-lOp" id="ZaC-dS-hi6">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="123"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ZC-va-vWO">
@@ -213,7 +213,7 @@
         <!--Onboard Article View Controller-->
         <scene sceneID="0nC-K1-pEK">
             <objects>
-                <viewController id="PEa-ou-OVf" customClass="OnboardArticleViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PEa-ou-OVf" customClass="OnboardArticleViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z9p-Q4-Nks"/>
                         <viewControllerLayoutGuide type="bottom" id="YI9-5u-OKc"/>
@@ -288,7 +288,7 @@
         <!--Location Alert View Controller-->
         <scene sceneID="Wyy-bt-D7z">
             <objects>
-                <viewController storyboardIdentifier="LocationAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bIq-dE-nYI" customClass="LocationAlertViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="bIq-dE-nYI" customClass="LocationAlertViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oXO-Y0-QVO"/>
                         <viewControllerLayoutGuide type="bottom" id="Qrj-pf-YDa"/>
@@ -354,7 +354,7 @@
         <!--Onboard Events View Controller-->
         <scene sceneID="uTN-g8-gI5">
             <objects>
-                <viewController id="jLs-EX-ACB" customClass="OnboardEventsViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="jLs-EX-ACB" customClass="OnboardEventsViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tEC-PU-vnk"/>
                         <viewControllerLayoutGuide type="bottom" id="UJw-0f-R5J"/>
@@ -448,7 +448,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -471,7 +471,7 @@
         <!--Explore View Controller-->
         <scene sceneID="vmT-xV-x1B">
             <objects>
-                <viewController id="mJ6-WL-mQX" customClass="ExploreViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="mJ6-WL-mQX" customClass="ExploreViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jvJ-GV-C12"/>
                         <viewControllerLayoutGuide type="bottom" id="kSg-9e-DsX"/>
@@ -531,20 +531,20 @@
         <!--Profile View Controller-->
         <scene sceneID="7nm-YX-slC">
             <objects>
-                <viewController id="OFZ-ke-SeA" customClass="ProfileViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OFZ-ke-SeA" customClass="ProfileViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mOH-dI-HYv"/>
                         <viewControllerLayoutGuide type="bottom" id="q07-11-xZ2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Lnc-bA-LTO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="214" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jPQ-Mb-brS">
-                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.94509803920000002" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProfileCell" rowHeight="229" id="C2t-Vy-IU2" customClass="ProfileCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProfileCell" rowHeight="229" id="C2t-Vy-IU2" customClass="ProfileCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="229"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C2t-Vy-IU2" id="0cz-vj-XLc">
@@ -680,7 +680,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCellInProduct" rowHeight="218" id="oNu-ld-VoB" customClass="ArticleCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCellInProduct" rowHeight="218" id="oNu-ld-VoB" customClass="ArticleCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="323" width="375" height="218"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oNu-ld-VoB" id="nDh-Mu-8sk">
@@ -789,28 +789,39 @@
                     <navigationItem key="navigationItem" id="Qgb-Bi-GCB"/>
                     <connections>
                         <outlet property="tableview" destination="jPQ-Mb-brS" id="TS1-ci-UQh"/>
+                        <outlet property="unwind_to_home_button" destination="nf1-dl-dFG" id="HYL-sM-jiK"/>
                         <segue destination="f27-vZ-HUM" kind="show" identifier="p_a" action="showDetailViewController:sender:" id="ZN0-WV-jNW"/>
                         <segue destination="Ijp-L4-xlt" kind="show" identifier="p_s" id="jqT-z2-CCW"/>
+                        <segue destination="wVC-Rf-Fo8" kind="show" identifier="segue_to_home" customClass="CustomSegue" customModule="Kale" customModuleProvider="target" id="bTL-Tf-1Tu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ViV-R5-6oM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nf1-dl-dFG">
+                    <rect key="frame" x="0.0" y="0.0" width="46" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="UnwindToHomeButton"/>
+                    <connections>
+                        <segue destination="MgY-fy-k9F" kind="unwind" unwindAction="unwind_to_HomeVCWithSegue:" id="r5K-21-jJp"/>
+                    </connections>
+                </button>
+                <exit id="MgY-fy-k9F" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3424.8000000000002" y="1739.2803598200901"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="RfX-Dx-UT1">
             <objects>
-                <viewController id="Ijp-L4-xlt" customClass="SettingsViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ijp-L4-xlt" customClass="SettingsViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oG9-th-hFd"/>
                         <viewControllerLayoutGuide type="bottom" id="GWR-8T-s20"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Nbn-Jr-L8T">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="77" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jM7-2m-lUn">
-                                <rect key="frame" x="0.0" y="83" width="375" height="535"/>
+                                <rect key="frame" x="0.0" y="83" width="375" height="584"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingscell" textLabel="93S-LY-cWf" rowHeight="75" style="IBUITableViewCellStyleDefault" id="8O2-tV-jwy">
@@ -836,7 +847,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAA-09-XCH">
-                                        <rect key="frame" x="119" y="19" width="136" height="44"/>
+                                        <rect key="frame" x="120" y="19" width="136" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="136" id="RHI-em-Vr4"/>
                                             <constraint firstAttribute="height" constant="44" id="j1D-yo-lj2"/>
@@ -894,20 +905,20 @@
         <!--Change Password View Controller-->
         <scene sceneID="Mbr-Em-rc9">
             <objects>
-                <viewController id="AKJ-TX-jJe" customClass="ChangePasswordViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="AKJ-TX-jJe" customClass="ChangePasswordViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aBr-wc-nIM"/>
                         <viewControllerLayoutGuide type="bottom" id="awN-o6-fLr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9UB-Uo-PnY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COx-aD-0hQ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFp-G6-GnY">
-                                        <rect key="frame" x="69" y="19" width="236" height="44"/>
+                                        <rect key="frame" x="70" y="19" width="236" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="236" id="5iD-Yd-URh"/>
                                             <constraint firstAttribute="height" constant="44" id="zGM-l2-kY1"/>
@@ -1050,7 +1061,7 @@
         <!--Topics View Controller-->
         <scene sceneID="9MK-oq-hnz">
             <objects>
-                <viewController id="nLS-0t-hUH" customClass="TopicsViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="nLS-0t-hUH" customClass="TopicsViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wwQ-gK-DrR"/>
                         <viewControllerLayoutGuide type="bottom" id="km4-mF-dWq"/>
@@ -1097,11 +1108,11 @@
                                 <rect key="frame" x="0.0" y="83" width="375" height="584"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailTopicTableViewCell" rowHeight="209" id="6cD-fm-Kh7" customClass="DetailTopicTableViewCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailTopicTableViewCell" rowHeight="209" id="6cD-fm-Kh7" customClass="DetailTopicTableViewCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="209"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6cD-fm-Kh7" id="raO-o2-yMx">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="208"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="209"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="handpicked" translatesAutoresizingMaskIntoConstraints="NO" id="mtm-Oh-tox">
@@ -1226,20 +1237,20 @@
         <!--Home View Controller-->
         <scene sceneID="LyW-2x-7gp">
             <objects>
-                <viewController id="wVC-Rf-Fo8" customClass="HomeViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wVC-Rf-Fo8" customClass="HomeViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="f7t-MN-FdF"/>
                         <viewControllerLayoutGuide type="bottom" id="1T0-iV-Iep"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="EFo-hB-SEq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="921"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="970"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="171" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WrI-mG-GyZ">
-                                <rect key="frame" x="0.0" y="20" width="320" height="901"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="950"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProductCell" rowHeight="92" id="Dxi-h2-Bdj" customClass="ProductCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ProductCell" rowHeight="92" id="Dxi-h2-Bdj" customClass="ProductCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="92"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dxi-h2-Bdj" id="Etn-o6-6ZM">
@@ -1301,7 +1312,7 @@
                                             <outlet property="topicLabel" destination="UdU-1e-PUH" id="vjg-Gj-jpJ"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TopicHeaderCell" rowHeight="322" id="3lr-Fh-n7y" customClass="TopicHeaderCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TopicHeaderCell" rowHeight="322" id="3lr-Fh-n7y" customClass="TopicHeaderCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="120" width="320" height="322"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3lr-Fh-n7y" id="GuG-vP-u8i">
@@ -1338,7 +1349,7 @@
                                             <outlet property="topicLabel" destination="wY9-mx-59j" id="hXA-zy-bpc"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCell" rowHeight="218" id="GKW-hC-ncG" customClass="ArticleCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCell" rowHeight="218" id="GKW-hC-ncG" customClass="ArticleCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="442" width="320" height="218"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GKW-hC-ncG" id="rqz-uV-QMC">
@@ -1433,7 +1444,7 @@
                                             <outlet property="topicLabel" destination="XdF-wi-vjZ" id="pXl-2y-NiE"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="V2ArticleCell" rowHeight="615" id="5rc-BZ-ts6" customClass="V2ArticleCell" customModule="Undercooked" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="V2ArticleCell" rowHeight="615" id="5rc-BZ-ts6" customClass="V2ArticleCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="660" width="320" height="615"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5rc-BZ-ts6" id="6aM-P9-Y2R">
@@ -1489,7 +1500,7 @@
                                                     <state key="normal" image="share icon"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wVz-0Q-2G9">
-                                                    <rect key="frame" x="132.5" y="568.5" width="55" height="33"/>
+                                                    <rect key="frame" x="133" y="568" width="55" height="33"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="55" id="0tB-DI-YCq"/>
                                                         <constraint firstAttribute="height" constant="33" id="8c6-os-drD"/>
@@ -1576,9 +1587,9 @@
                                             <constraint firstAttribute="height" constant="94" id="hTm-vD-wHR"/>
                                         </constraints>
                                         <inset key="scrollIndicatorInsets" minX="1" minY="0.0" maxX="1" maxY="0.0"/>
-                                        <collectionViewLayout key="collectionViewLayout" id="mZW-nk-MdY" customClass="RAReorderableLayout" customModule="Undercooked" customModuleProvider="target"/>
+                                        <collectionViewLayout key="collectionViewLayout" id="mZW-nk-MdY" customClass="RAReorderableLayout" customModule="Kale" customModuleProvider="target"/>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HeadTopic_CollectionCell" id="Dux-Cm-kLM" customClass="Topic_CollectionCell" customModule="Undercooked" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HeadTopic_CollectionCell" id="Dux-Cm-kLM" customClass="Topic_CollectionCell" customModule="Kale" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1641,7 +1652,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="0.40392156862745099" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.11372549019607843" green="0.6705882352941176" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="TLb-sK-d07" firstAttribute="leading" secondItem="iMb-6h-i5w" secondAttribute="leading" constant="8" id="0tM-zZ-lXX"/>
                                     <constraint firstItem="TLb-sK-d07" firstAttribute="top" secondItem="iMb-6h-i5w" secondAttribute="top" constant="15" id="5ni-jC-E1k"/>
@@ -1653,7 +1664,7 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddP-TT-RXr">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                                <color key="backgroundColor" red="1" green="0.4039215686" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.11372549019607843" green="0.6705882352941176" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="qMm-qo-usm"/>
                                 </constraints>
@@ -1673,16 +1684,19 @@
                             <constraint firstItem="ddP-TT-RXr" firstAttribute="leading" secondItem="EFo-hB-SEq" secondAttribute="leading" id="tVO-mo-xGh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="u icon (blue)" id="fU4-Uf-vXv"/>
+                    <tabBarItem key="tabBarItem" title="" image="k icon (green)" id="fU4-Uf-vXv"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="970"/>
                     <connections>
                         <outlet property="collectionView" destination="TLb-sK-d07" id="CRv-WE-Xig"/>
                         <outlet property="header" destination="iMb-6h-i5w" id="tOl-fp-nol"/>
+                        <outlet property="statusbar_view" destination="ddP-TT-RXr" id="ZPb-9X-M9K"/>
                         <outlet property="tableview" destination="WrI-mG-GyZ" id="ldV-pC-eoN"/>
                         <outlet property="topicLabel" destination="XyB-ER-P82" id="KLc-fM-EMV"/>
-                        <segue destination="f27-vZ-HUM" kind="show" identifier="view article" id="iLb-Yh-NMX"/>
+                        <segue destination="f27-vZ-HUM" kind="showDetail" identifier="view article" action="showViewController:sender:" id="iLb-Yh-NMX"/>
                         <segue destination="g80-Sg-bg6" kind="showDetail" identifier="feedback" id="slV-Kh-q7q"/>
+                        <segue destination="aCa-aN-RBS" kind="custom" identifier="segue_to_profile" customClass="CustomUnwindSegue" customModule="Kale" customModuleProvider="target" id="lzU-np-0RT"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="loadVC" action="showViewController:sender:" id="ffJ-yR-i6Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbz-T7-rEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1692,7 +1706,7 @@
         <!--Product View Controller-->
         <scene sceneID="H9A-im-huY">
             <objects>
-                <viewController storyboardIdentifier="ProductView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BwO-KA-Og0" customClass="ProductViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BwO-KA-Og0" customClass="ProductViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JwF-Ls-onQ"/>
                         <viewControllerLayoutGuide type="bottom" id="gxW-3G-28y"/>
@@ -1781,24 +1795,24 @@
         <!--Article View Controller-->
         <scene sceneID="WwP-VO-pap">
             <objects>
-                <viewController id="f27-vZ-HUM" customClass="ArticleViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="f27-vZ-HUM" customClass="ArticleViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Wbk-Gy-QGV"/>
                         <viewControllerLayoutGuide type="bottom" id="QvX-Ml-aIs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="owa-SW-SzK">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="921"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJa-gJ-Zvn">
-                                <rect key="frame" x="0.0" y="20" width="320" height="901"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdx-Jf-tfG">
-                                <rect key="frame" x="0.0" y="869" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="615" width="375" height="52"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vzd-sB-D3b">
-                                        <rect key="frame" x="143" y="11" width="35" height="33"/>
+                                        <rect key="frame" x="170" y="11" width="35" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="35" id="bvM-KT-icT"/>
                                             <constraint firstAttribute="height" constant="33" id="ufb-d4-tt6"/>
@@ -1826,7 +1840,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Sz-jp-Rc9">
-                                        <rect key="frame" x="245" y="2" width="75" height="42"/>
+                                        <rect key="frame" x="300" y="2" width="75" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="75" id="KdR-rY-otk"/>
                                             <constraint firstAttribute="height" constant="42" id="okc-dG-uPo"/>
@@ -1842,7 +1856,7 @@
                                         <state key="normal" image="blue_back_button_image"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1mb-CG-P5s">
-                                        <rect key="frame" x="178" y="17" width="42" height="21"/>
+                                        <rect key="frame" x="205" y="17" width="42" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="IDQ-kX-SWK"/>
                                             <constraint firstAttribute="width" constant="42" id="oy7-5T-fpP"/>
@@ -1866,15 +1880,15 @@
                                 </constraints>
                             </view>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5uE-vt-DYK">
-                                <rect key="frame" x="0.0" y="867" width="320" height="2"/>
+                                <rect key="frame" x="0.0" y="613" width="375" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="EjB-Jo-pPJ"/>
                                 </constraints>
                                 <color key="progressTintColor" red="0.1137254902" green="0.6705882353" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
                             </progressView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TYc-RP-Zci">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                                <color key="backgroundColor" red="1" green="0.4039215686" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                <color key="backgroundColor" red="0.11372549019607843" green="0.6705882352941176" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="JnH-2F-s2k"/>
                                 </constraints>
@@ -1951,7 +1965,7 @@
         <!--Tab View Controller-->
         <scene sceneID="rBT-Eo-2XH">
             <objects>
-                <tabBarController storyboardIdentifier="TabController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5Wv-Yn-sxD" customClass="TabViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5Wv-Yn-sxD" customClass="TabViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="Z4G-lE-JLE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1961,7 +1975,6 @@
                     <connections>
                         <outlet property="tab" destination="Z4G-lE-JLE" id="1my-LP-Rim"/>
                         <segue destination="wVC-Rf-Fo8" kind="relationship" relationship="viewControllers" id="roR-sc-r9g"/>
-                        <segue destination="aCa-aN-RBS" kind="relationship" relationship="viewControllers" id="1EP-zN-vfH"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3pq-3X-OKA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1971,7 +1984,7 @@
         <!--Sign Up In View Controller-->
         <scene sceneID="ZYV-P7-koZ">
             <objects>
-                <viewController storyboardIdentifier="Sign In" id="1Ri-jg-FTL" customClass="SignUpInViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Sign In" id="1Ri-jg-FTL" customClass="SignUpInViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2RL-QK-zay"/>
                         <viewControllerLayoutGuide type="bottom" id="Dsu-OF-Quc"/>
@@ -2004,23 +2017,13 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n5K-Ym-Ckl">
-                                <rect key="frame" x="23" y="95" width="287" height="58"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="white_kale" translatesAutoresizingMaskIntoConstraints="NO" id="Q3V-CO-Tfn">
+                                <rect key="frame" x="23" y="98" width="138" height="47"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="58" id="dOl-f2-mbu"/>
-                                    <constraint firstAttribute="width" constant="287" id="yf7-bs-MLw"/>
+                                    <constraint firstAttribute="height" constant="47" id="Pzh-RW-c0q"/>
+                                    <constraint firstAttribute="width" constant="138" id="oeF-6s-C9W"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="undercooked">
-                                        <attributes>
-                                            <color key="NSColor" red="0.11372549019607843" green="0.6705882352941176" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="39" name="SanchezSlab"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Jn-sg-6s7">
                                 <rect key="frame" x="75" y="568" width="225" height="51"/>
                                 <constraints>
@@ -2058,9 +2061,9 @@
                             <constraint firstItem="Dsu-OF-Quc" firstAttribute="top" secondItem="EWj-CC-vhe" secondAttribute="bottom" constant="-30" id="Wtg-fa-cJs"/>
                             <constraint firstItem="F6E-qx-fWi" firstAttribute="leading" secondItem="MqN-ac-UIu" secondAttribute="leading" id="aXO-KQ-wwA"/>
                             <constraint firstItem="1tL-Cs-ZVc" firstAttribute="top" secondItem="2RL-QK-zay" secondAttribute="bottom" constant="25" id="d35-Im-rgI"/>
-                            <constraint firstItem="n5K-Ym-Ckl" firstAttribute="leading" secondItem="MqN-ac-UIu" secondAttribute="leadingMargin" constant="7" id="iJT-1u-uVU"/>
+                            <constraint firstItem="Q3V-CO-Tfn" firstAttribute="leading" secondItem="MqN-ac-UIu" secondAttribute="leadingMargin" constant="7" id="ilo-82-9gl"/>
                             <constraint firstItem="EWj-CC-vhe" firstAttribute="top" secondItem="MqN-ac-UIu" secondAttribute="top" constant="-30" id="mDC-RR-Gtf"/>
-                            <constraint firstItem="n5K-Ym-Ckl" firstAttribute="top" secondItem="2RL-QK-zay" secondAttribute="bottom" constant="75" id="sSX-zX-lJM"/>
+                            <constraint firstItem="Q3V-CO-Tfn" firstAttribute="top" secondItem="2RL-QK-zay" secondAttribute="bottom" constant="78" id="wvx-kx-iNK"/>
                             <constraint firstItem="1Jn-sg-6s7" firstAttribute="top" secondItem="Maf-fp-tJC" secondAttribute="bottom" constant="8" id="z32-Zb-6gZ"/>
                         </constraints>
                     </view>
@@ -2079,7 +2082,7 @@
         <!--Topic Detail View Controller-->
         <scene sceneID="rED-0i-6Mg">
             <objects>
-                <viewController storyboardIdentifier="TopicDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Qrv-fX-EXQ" customClass="TopicDetailViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TopicDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Qrv-fX-EXQ" customClass="TopicDetailViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2Te-ob-ZGm"/>
                         <viewControllerLayoutGuide type="bottom" id="bFX-ma-kNc"/>
@@ -2173,7 +2176,7 @@
         <!--Select Topic View Controller-->
         <scene sceneID="oZO-lA-a15">
             <objects>
-                <viewController id="z3f-x7-4he" customClass="SelectTopicViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="z3f-x7-4he" customClass="SelectTopicViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kx3-0o-TEi"/>
                         <viewControllerLayoutGuide type="bottom" id="72u-G8-wIV"/>
@@ -2226,7 +2229,7 @@
                                     <inset key="sectionInset" minX="12" minY="10" maxX="12" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Topic_CollectionCell" id="dGC-Bc-ALg" customClass="Topic_CollectionCell" customModule="Undercooked" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Topic_CollectionCell" id="dGC-Bc-ALg" customClass="Topic_CollectionCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="12" y="10" width="94" height="111"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2344,7 +2347,7 @@
         <!--Sign Up In Alert View Controller-->
         <scene sceneID="hfI-Ix-Myy">
             <objects>
-                <viewController storyboardIdentifier="SignUpInAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="avo-Wc-EqH" customClass="SignUpInAlertViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpInAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="avo-Wc-EqH" customClass="SignUpInAlertViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Sha-mn-9CU"/>
                         <viewControllerLayoutGuide type="bottom" id="xva-kx-GvT"/>
@@ -2404,14 +2407,13 @@
                                     <constraint firstAttribute="height" constant="59" id="XPQ-9g-Zpo"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1C-Uh-acl">
-                                <rect key="frame" x="30" y="181" width="94" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1C-Uh-acl">
+                                <rect key="frame" x="70" y="174" width="45" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="94" id="U0k-c4-HYF"/>
-                                    <constraint firstAttribute="height" constant="38" id="pWD-eL-HXG"/>
+                                    <constraint firstAttribute="width" constant="45" id="Gm2-kv-z2k"/>
+                                    <constraint firstAttribute="height" constant="45" id="sVM-ji-ITT"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="SanchezSlab" family="Sanchez Slab" pointSize="18"/>
-                                <state key="normal" title="Go Back">
+                                <state key="normal" image="FacebookButton">
                                     <color key="titleColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
@@ -2430,24 +2432,36 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login with:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hog-o2-zX3">
+                                <rect key="frame" x="14" y="167" width="62" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="62" id="Vcd-gT-7lT"/>
+                                    <constraint firstAttribute="height" constant="50" id="tHG-fv-6aF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SanchezSlab" family="Sanchez Slab" pointSize="16"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="y1C-Uh-acl" firstAttribute="leading" secondItem="htY-uL-d9C" secondAttribute="leadingMargin" constant="14" id="PgN-30-KX3"/>
+                            <constraint firstItem="y1C-Uh-acl" firstAttribute="leading" secondItem="htY-uL-d9C" secondAttribute="leadingMargin" constant="54" id="PgN-30-KX3"/>
                             <constraint firstAttribute="bottomMargin" secondItem="wTj-dm-UOI" secondAttribute="bottom" constant="10" id="XIb-j3-tEc"/>
+                            <constraint firstItem="xva-kx-GvT" firstAttribute="top" secondItem="Hog-o2-zX3" secondAttribute="bottom" constant="23" id="b3U-WX-eks"/>
                             <constraint firstItem="xva-kx-GvT" firstAttribute="top" secondItem="y1C-Uh-acl" secondAttribute="bottom" constant="21" id="j3B-b8-rG9"/>
                             <constraint firstItem="aKS-Y0-fXy" firstAttribute="trailing" secondItem="htY-uL-d9C" secondAttribute="trailingMargin" id="j6K-Fl-Xzg"/>
                             <constraint firstItem="xva-kx-GvT" firstAttribute="top" secondItem="aKS-Y0-fXy" secondAttribute="bottom" constant="19" id="ngh-VS-hKE"/>
                             <constraint firstItem="wTj-dm-UOI" firstAttribute="centerX" secondItem="htY-uL-d9C" secondAttribute="centerX" id="snF-ar-xB9"/>
+                            <constraint firstItem="Hog-o2-zX3" firstAttribute="leading" secondItem="htY-uL-d9C" secondAttribute="leading" constant="14" id="xJk-ss-KNy"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="309" height="240"/>
                     <connections>
-                        <outlet property="backButton" destination="y1C-Uh-acl" id="QBa-ju-PKJ"/>
                         <outlet property="emailTXField" destination="drz-Aj-kas" id="YHc-sn-6sb"/>
                         <outlet property="emailView" destination="so5-u2-RJP" id="CBe-ee-p9C"/>
+                        <outlet property="facebook_button" destination="y1C-Uh-acl" id="fbK-Oa-9oH"/>
                         <outlet property="goButton" destination="aKS-Y0-fXy" id="DPD-Co-0uA"/>
                         <outlet property="passwordTXField" destination="VMo-40-TRT" id="A2K-uj-Rpk"/>
                         <outlet property="passwordView" destination="aJP-ZW-YEZ" id="6XM-YO-Zvx"/>
@@ -2468,7 +2482,7 @@
                     <state key="normal" title="segue_topics"/>
                 </button>
             </objects>
-            <point key="canvasLocation" x="2439" y="-1064"/>
+            <point key="canvasLocation" x="2437.5999999999999" y="-1065.0674662668666"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="HYZ-yW-6E0">
@@ -2511,7 +2525,7 @@
         <!--Swap Topics View Controller-->
         <scene sceneID="0On-ca-GNA">
             <objects>
-                <viewController id="lc3-tV-EmN" customClass="SwapTopicsViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lc3-tV-EmN" customClass="SwapTopicsViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uEO-xJ-igT"/>
                         <viewControllerLayoutGuide type="bottom" id="ZJO-md-e2T"/>
@@ -2553,7 +2567,7 @@
                                     <inset key="sectionInset" minX="12" minY="10" maxX="12" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SwapTopic_CollectionCell" id="rft-0I-CfA" customClass="Topic_CollectionCell" customModule="Undercooked" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SwapTopic_CollectionCell" id="rft-0I-CfA" customClass="Topic_CollectionCell" customModule="Kale" customModuleProvider="target">
                                         <rect key="frame" x="12" y="10" width="94" height="111"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2673,25 +2687,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DkF-73-5cg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2485.5999999999999" y="1739.2803598200901"/>
+            <point key="canvasLocation" x="2447" y="1739"/>
         </scene>
         <!--Change Name View Controller-->
         <scene sceneID="1tn-gI-3T2">
             <objects>
-                <viewController id="s6Q-sl-fzS" customClass="ChangeNameViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="s6Q-sl-fzS" customClass="ChangeNameViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0r8-sA-9Ob"/>
                         <viewControllerLayoutGuide type="bottom" id="OE4-qf-m2v"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LbG-Nu-thI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IiV-EL-TLx">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-cg-LXx">
-                                        <rect key="frame" x="69" y="19" width="236" height="44"/>
+                                        <rect key="frame" x="70" y="19" width="236" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="236" id="tgI-wG-M2I"/>
                                             <constraint firstAttribute="height" constant="44" id="vOQ-SH-VL8"/>
@@ -2775,7 +2789,7 @@
         <!--Feedback View Controller-->
         <scene sceneID="JIC-GG-Fyg">
             <objects>
-                <viewController id="g80-Sg-bg6" customClass="FeedbackViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="g80-Sg-bg6" customClass="FeedbackViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6c4-jU-ofp"/>
                         <viewControllerLayoutGuide type="bottom" id="c9Z-iR-V3z"/>
@@ -2995,7 +3009,7 @@
         <!--Swipe All Topics Alert View Controller-->
         <scene sceneID="NCC-vl-vnP">
             <objects>
-                <viewController storyboardIdentifier="SwipeAllTopicsAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PDz-e8-B3a" customClass="SwipeAllTopicsAlertViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SwipeAllTopicsAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PDz-e8-B3a" customClass="SwipeAllTopicsAlertViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dNv-a9-cy0"/>
                         <viewControllerLayoutGuide type="bottom" id="9a4-jA-E0j"/>
@@ -3014,7 +3028,7 @@
                                             <constraint firstAttribute="width" constant="217" id="wu6-Xg-Mks"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SanchezSlab" family="Sanchez Slab" pointSize="18"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfr-NT-no5">
@@ -3106,11 +3120,11 @@
                                             <constraint firstAttribute="width" constant="217" id="w19-lb-Mca"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SanchezSlab" family="Sanchez Slab" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.92156862750000001" green="0.38823529410000002" blue="0.3803921569" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.42374884689999998" green="0.56296413749999996" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="b5m-lE-BD0" secondAttribute="bottom" id="7Fg-SF-cpL"/>
                                     <constraint firstItem="b5m-lE-BD0" firstAttribute="centerX" secondItem="Ds0-my-YDG" secondAttribute="centerX" id="Y4H-EE-4nj"/>
@@ -3169,7 +3183,7 @@
         <!--Suggestion Alert View Controller-->
         <scene sceneID="0nB-f5-5dT">
             <objects>
-                <viewController storyboardIdentifier="SuggestionAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rl5-mi-t4w" customClass="SuggestionAlertViewController" customModule="Undercooked" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SuggestionAlertViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Rl5-mi-t4w" customClass="SuggestionAlertViewController" customModule="Kale" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6Ud-30-wtj"/>
                         <viewControllerLayoutGuide type="bottom" id="3eN-NR-25G"/>
@@ -3236,6 +3250,7 @@
     <resources>
         <image name="EmailIcon" width="32" height="24"/>
         <image name="ExploreImage" width="28" height="29"/>
+        <image name="FacebookButton" width="45" height="45"/>
         <image name="LockIcon" width="19" height="30"/>
         <image name="ProfileIcon" width="23" height="23"/>
         <image name="SettingIcon" width="26" height="26"/>
@@ -3249,6 +3264,7 @@
         <image name="handpicked" width="127" height="127"/>
         <image name="health_image" width="254" height="254"/>
         <image name="in-love" width="34" height="34"/>
+        <image name="k icon (green)" width="32" height="32"/>
         <image name="pointing" width="128" height="128"/>
         <image name="propic" width="47" height="48"/>
         <image name="red heart icon" width="25" height="21"/>
@@ -3259,14 +3275,15 @@
         <image name="share icon" width="22" height="22"/>
         <image name="shrimp" width="254" height="254"/>
         <image name="smiling" width="34" height="34"/>
-        <image name="u icon (blue)" width="18" height="16"/>
         <image name="vegan_icon" width="254" height="254"/>
+        <image name="white_kale" width="338" height="148"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Nb4-xH-gts"/>
+        <segue reference="slV-Kh-q7q"/>
+        <segue reference="bTL-Tf-1Tu"/>
+        <segue reference="iLb-Yh-NMX"/>
         <segue reference="sMj-oH-7I3"/>
         <segue reference="8my-jN-fyM"/>
-        <segue reference="iLb-Yh-NMX"/>
-        <segue reference="slV-Kh-q7q"/>
+        <segue reference="Nb4-xH-gts"/>
     </inferredMetricsTieBreakers>
 </document>

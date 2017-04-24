@@ -26,7 +26,7 @@ class TabViewController: UITabBarController {
 //        tab.items?[2].setTitleTextAttributes([NSForegroundColorAttributeName: pop_orange], for:.selected)
 
         if let items = self.tabBar.items {
-            let tabBarImages = [UIImage(named: "u icon (blue)"),UIImage(named: "ProfileIcon"),UIImage(named: "ExploreIcon")] // tabBarImages: [UIImage]
+            let tabBarImages = [UIImage(named: "k icon (green)"),UIImage(named: "ProfileIcon"),UIImage(named: "ExploreIcon")] // tabBarImages: [UIImage]
             for i in 0..<items.count {
                 let tabBarItem = items[i]
                 let tabBarImage = tabBarImages[i]

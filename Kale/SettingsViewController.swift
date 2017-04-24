@@ -74,7 +74,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     func invite_other(){
         print("Displaying UIActivity Controller")
-        let textToShare = "I know how much you love food, check out Undercooked"
+        let textToShare = "I know how much you love vegan food, so check out Kale! It has amazing recipes provided by vegan bloggers"
         
         if let myWebsite = NSURL(string: "") {
             let objectsToShare = [textToShare, myWebsite] as [Any]
@@ -194,7 +194,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             mailComposer.mailComposeDelegate = self
             
             //Set the subject and message of the email
-            mailComposer.setSubject("About Undercooked")
+            mailComposer.setSubject("About Kale")
             mailComposer.setMessageBody("\n \n\n\n\n \n\n\n_____________________   \nPhone Version: \(systemVersion),\n App Version: \(version!),\n \(device)", isHTML: false)
             mailComposer.setToRecipients(["undercookedapp@gmail.com"])
             

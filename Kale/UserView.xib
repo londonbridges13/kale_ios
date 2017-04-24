@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1217" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserView" customModule="Undercooked" customModuleProvider="target">
+            <connections>
+                <outlet property="profileButton" destination="eRP-Wq-nPo" id="hc7-5y-Fcp"/>
+                <outlet property="profileImage" destination="nJa-KJ-ABE" id="40a-VZ-Ous"/>
+                <outlet property="profileLabel" destination="27L-Pq-CUA" id="6kC-ua-LC1"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRP-Wq-nPo">
+                    <rect key="frame" x="246" y="0.0" width="74" height="75"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="74" id="Svd-j0-iEe"/>
+                        <constraint firstAttribute="height" constant="75" id="w59-h1-fli"/>
+                    </constraints>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nJa-KJ-ABE">
+                    <rect key="frame" x="256" y="11" width="55" height="53"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="55" id="dws-Lt-pob"/>
+                        <constraint firstAttribute="height" constant="53" id="vax-CN-X1e"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logged in as" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1WW-h9-7Px">
+                    <rect key="frame" x="7" y="4" width="129" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="kx1-gJ-xOp"/>
+                        <constraint firstAttribute="width" constant="129" id="nuH-lr-aQl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-MediumItalic" family="Helvetica Neue" pointSize="14"/>
+                    <color key="textColor" red="0.31855451930118789" green="0.42498635285608805" blue="0.60381752760252372" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ami Lyn McKay" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="27L-Pq-CUA">
+                    <rect key="frame" x="16" y="36" width="213" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="rBV-wE-X7y"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="eRP-Wq-nPo" firstAttribute="leading" secondItem="27L-Pq-CUA" secondAttribute="trailing" constant="17" id="3BG-qp-HjQ"/>
+                <constraint firstItem="1WW-h9-7Px" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="AKL-R7-omc"/>
+                <constraint firstItem="nJa-KJ-ABE" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="He2-tk-Q8J"/>
+                <constraint firstItem="27L-Pq-CUA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="Kl3-o9-s5l"/>
+                <constraint firstItem="eRP-Wq-nPo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="MiE-kf-qb4"/>
+                <constraint firstItem="1WW-h9-7Px" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="7" id="Obv-jN-H1y"/>
+                <constraint firstItem="nJa-KJ-ABE" firstAttribute="leading" secondItem="eRP-Wq-nPo" secondAttribute="trailing" constant="-64" id="P1u-Yz-omt"/>
+                <constraint firstAttribute="bottom" secondItem="27L-Pq-CUA" secondAttribute="bottom" constant="21" id="dJ3-NT-NA6"/>
+                <constraint firstItem="eRP-Wq-nPo" firstAttribute="centerX" secondItem="nJa-KJ-ABE" secondAttribute="centerX" id="hi5-xG-tli"/>
+                <constraint firstAttribute="trailing" secondItem="eRP-Wq-nPo" secondAttribute="trailing" id="kD4-2V-J2G"/>
+                <constraint firstAttribute="bottom" secondItem="eRP-Wq-nPo" secondAttribute="bottom" id="qos-bi-DW6"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="34" y="79.5"/>
+        </view>
+    </objects>
+</document>

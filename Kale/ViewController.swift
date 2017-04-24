@@ -11,11 +11,17 @@ import RealmSwift
 import Alamofire
 import Jelly
 import NVActivityIndicatorView
+//import FacebookLogin
+//
+//import FBSDKCoreKit
+//import FBSDKShareKit
+//import FBSDKLoginKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, DismissViewController {
 
     var actIndi : NVActivityIndicatorView?
     var jellyAnimator: JellyAnimator?
+    var delegate : DismissViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +33,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
             self.check_everything()
         }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,7 +52,7 @@ class ViewController: UIViewController {
             "utoken": user_token
         ]
         
-        Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/users/signin", method: .post, parameters: parameters).responseJSON { (response) in
+        Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/signin", method: .post, parameters: parameters).responseJSON { (response) in
             
             // Sign In issue, solution: delay the response
             var delayInSeconds = 0.25
@@ -76,6 +83,42 @@ class ViewController: UIViewController {
         }
         
     }
+    
+    
+    func request_facebook_login(email: String, facebook_id: String, access_token: String){
+        print("VC using FB login")
+        let parameters: Parameters = [
+            "access_token": access_token,
+            "uemail": email,
+            "ufacebook_id": facebook_id,
+            ]
+        
+        Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/login_with_facebook", method: .post, parameters: parameters).responseJSON { (response) in
+            if let result = response.result.value as? NSDictionary{
+                print("recieved user creds")
+                //Getting the user's access token
+                var user_token = result["access_token"] as? String
+                if user_token != nil{
+                    // Successfully signed in, segue to Home Tab
+                    print(user_token!)
+                    self.set_user_token(user_token: user_token!)
+                    // Go to Home Tab
+                    self.segue_to_home_tab()
+                }else{
+                    // Invalid Sign In
+                    print("Invalid Email/Password. Sign in again")
+                    // Sign in again
+                    self.sign_in_again()
+                }
+            }else{
+                // Invalid Sign In
+                print("No Response...Network Error")
+                self.display_bad_connection_alert()
+            }
+        }
+        
+    }
+    
     
     
     func check_everything(){
@@ -156,7 +199,10 @@ class ViewController: UIViewController {
         var user = realm.objects(User).first
         if user != nil{
             // Check on credentials
-            if user!.email != nil && user!.password != nil && user!.client_token != nil{
+            if user!.email != nil && user!.facebook_id != nil && user!.client_token != nil{
+                // Try facebook
+                self.request_facebook_login(email: user!.email!, facebook_id: user!.facebook_id!, access_token: user!.access_token!)
+            }else if user!.email != nil && user!.password != nil && user!.client_token != nil{
                     // Sign In again
                     self.request_sign_in(email: user!.email!, password: user!.password!, access_token: user!.client_token!)
             }
@@ -215,7 +261,8 @@ class ViewController: UIViewController {
     }
 
     func segue_to_home_tab(){
-        self.performSegue(withIdentifier: "go home", sender: self)
+//        self.performSegue(withIdentifier: "go home", sender: self)
+        self.dismiss(animated: true, completion: nil)
     }
     func segue_to_onboarding(){
         self.performSegue(withIdentifier: "onboarding", sender: self)
@@ -225,6 +272,16 @@ class ViewController: UIViewController {
     }
     
     
+    func dismissVC(){
+        print("Running Dismiss")
+        
+        self.view.removeFromSuperview()
+        var homeVC : HomeViewController = parent as! HomeViewController
+        homeVC.inform_user()
+        homeVC.does_user_exist()
+        parent!.dismiss(animated: true, completion: nil)
+
+    }
     
     
     
@@ -235,7 +292,7 @@ class ViewController: UIViewController {
         var loadview = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         let undercooked_image = UIImageView(frame: CGRect(x: loadview.frame.width / 2 - 23, y: loadview.frame.height / 2 - 96, width: 45, height: 76))
         undercooked_image.contentMode = .scaleAspectFit
-        undercooked_image.image = UIImage(named: "white_u")
+        undercooked_image.image = UIImage(named: "white_k")
         
         loadview.addSubview(undercooked_image)
         let bluecolor = UIColor(red: 29/255, green: 171/255, blue: 192/255, alpha: 1)
@@ -286,6 +343,20 @@ class ViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "onboarding"{
+            let vc : SignUpInViewController = segue.destination as! SignUpInViewController
+            vc.delegate = self
+        }
+        if segue.identifier == "select_topics"{
+            let vc : SelectTopicViewController = segue.destination as! SelectTopicViewController
+//            vc.delegate = self
+        }
+
+    }
     
 
 }

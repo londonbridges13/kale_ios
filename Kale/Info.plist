@@ -18,8 +18,28 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.1.1</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb521475811309895</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>521475811309895</string>
+	<key>FacebookDisplayName</key>
+	<string>Kale Mobile App</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -48,8 +68,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>clientId</key>
-	<string>9aa75fbde70b56476bc81d63bcc76bf67ff314f12f72326bd7a9dd63732c691e</string>
+	<string>f23c9dafeed95aa5411bb8ad4bc8e731c2d60c1826455e1928e03e0d71fb5db3</string>
 	<key>clientSecret</key>
-	<string>868161f03dd414e38a94415cd1b94a857b7b7a9c7b41af2c86f4d70169c0caa1</string>
+	<string>574ee0c3d2368da3bc564086c1092de56093df7d7beeabbe6c349fa41f0d3be9</string>
 </dict>
 </plist>

@@ -17,7 +17,9 @@ target ‘Kale’ do
 	pod 'PullToMakeSoup', '~> 2.0'
 	pod 'ImagePicker'
 	pod 'Hero', :git => 'https://github.com/lkzhao/Hero.git'
-
+	pod 'FacebookCore'
+	pod 'FacebookLogin'
+	pod 'FacebookShare'
 
 
   target 'KaleTests' do

@@ -11,6 +11,10 @@ import Jelly
 import RealmSwift
 import Alamofire
 
+protocol ContinueDismissDelegate{
+    func segue_to_home_tab()
+}
+
 class SelectTopicViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet var topicCountLabel: UILabel!
@@ -22,7 +26,8 @@ class SelectTopicViewController: UIViewController, UICollectionViewDelegate, UIC
     var my_topics = [Topic]()
     var selected_image : UIImage?
     var selected_topic : Topic?
-    
+    var delegate : ContinueDismissDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -290,7 +295,16 @@ class SelectTopicViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func go_home(){
-        performSegue(withIdentifier: "st_h", sender: self)
+//        performSegue(withIdentifier: "st_h", sender: self)
+        
+        if let delegate = delegate{
+            print("Running Dismiss Delegate")
+            delegate.segue_to_home_tab()
+        }else{
+            print("NOT Continuing Dismiss Delegate")
+            
+        }
+
     }
     /*
     // MARK: - Navigation

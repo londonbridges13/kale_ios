@@ -1,6 +1,6 @@
 //
-//  UndercookedUITests.swift
-//  UndercookedUITests
+//  KaleUITests.swift
+//  KaleUITests
 //
 //  Created by Lyndon Samual McKay on 11/28/16.
 //  Copyright © 2016 Lyndon Samual McKay. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class UndercookedUITests: XCTestCase {
+class KaleUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

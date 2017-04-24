@@ -10,18 +10,23 @@ import UIKit
 import Jelly
 //import AlertOnboarding
 
-class SignUpInViewController: UIViewController, AlertOnboardingDelegate {
+protocol DismissViewController{
+    func dismissVC()
+}
+class SignUpInViewController: UIViewController, AlertOnboardingDelegate, ContinueDismissDelegate {
 
     @IBOutlet var signUpButton: UIButton!
     @IBOutlet var signInButton: UIButton!
+    var dismissButton: UIButton!
     @IBOutlet var backgroundImageView: UIImageView!
     
     var jellyAnimator: JellyAnimator?
     var alertView: AlertOnboarding!
-
+    var delegate : DismissViewController?
+    
     var arrayOfImage = ["welcome","onboard1", "onboard2", "Go"]
-    var arrayOfTitle = ["Welcome to Undercooked","Select Your Favorite Topics", "Read Interesting Articles", "Get Started"]
-    var arrayOfDescription = ["Read the best articles on food.","We have a wide range of topics to choose from. \n Sweets, Vegan, Health and Nutrition, and more","Enjoy Stories, Gather Recipes, Share the fun","Sign Up and Get Started in Seconds!"]
+    var arrayOfTitle = ["Welcome to Kale","Select Your Favorite Topics", "Read Interesting Articles", "Get Started"]
+    var arrayOfDescription = ["Articles for vegans.","We have a wide range of topics to choose from. \n Gluten Free, Desserts, Seasonal Recipes, and more","Enjoy Stories, Gather Recipes, Share the fun","Sign Up and Get Started in Seconds!"]
     
     
     override func viewDidLoad() {
@@ -107,6 +112,7 @@ class SignUpInViewController: UIViewController, AlertOnboardingDelegate {
 
     }
     
+    
     func sign_in(){
         //Jelly Animation required
         var signtext = "Sign In"
@@ -142,7 +148,18 @@ class SignUpInViewController: UIViewController, AlertOnboardingDelegate {
     
     
     func segue_to_home_tab(){
-        self.performSegue(withIdentifier: "to home tab", sender: self)
+//        self.performSegue(withIdentifier: "to home tab", sender: self)
+
+        
+        if let delegate = delegate{
+            print("Running Dismiss Delegate")
+            delegate.dismissVC()
+        }else{
+            print("NOT Running Dismiss Delegate")
+
+        }
+//        parent?.dismiss(animated: true, completion: nil)
+
     }
 
     func segue_to_select_topics(){
@@ -193,5 +210,19 @@ class SignUpInViewController: UIViewController, AlertOnboardingDelegate {
         view.addMotionEffect(group)
     }
     
+    
+    //Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+       
+        if segue.identifier == "select topics"{
+            let vc : SelectTopicViewController = segue.destination as! SelectTopicViewController
+            vc.delegate = self
+
+        }
+        
+    }
+
 
 }
