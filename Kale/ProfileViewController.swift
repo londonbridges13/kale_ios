@@ -80,9 +80,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             // Display Profile Cell
             let cell : ProfileCell = tableview.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileCell
             
+            let off_orange = UIColor(colorLiteralRed: 250/255, green: 205/255, blue: 155/255, alpha: 1)
+            let off_green = UIColor(colorLiteralRed: 176/255, green: 218/255, blue: 204/255, alpha: 1)
+            let gray_space = UIColor(colorLiteralRed: 158/255, green: 157/255, blue: 155/255, alpha: 1)
+
+            cell.backView.backgroundColor = off_green
             cell.backView.layer.cornerRadius = 6
             cell.lowerView.layer.cornerRadius = 6
             cell.topicsButton.layer.cornerRadius = 4
+            cell.topicsButton.setTitleColor(gray_space, for: .normal)
             cell.topicsButton.layer.borderColor = cell.topicsButton.titleColor(for: .normal)?.cgColor
             cell.topicsButton.layer.borderWidth = 1
             cell.profileBackView.layer.cornerRadius = 6

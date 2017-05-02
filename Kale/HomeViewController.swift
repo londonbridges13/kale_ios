@@ -17,7 +17,7 @@ import Foundation
 import AMScrollingNavbar
 //import RAReorderableLayout
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource, ArtcleCellDelegate {// UICollectionViewDelegate, UICollectionViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegateFlowLayout, RAReorderableLayoutDelegate, RAReorderableLayoutDataSource, ArtcleCellDelegate {// UICollectionViewDelegate, UICollectionViewDataSource {
 
     @IBOutlet var tableview: UITableView!
     @IBOutlet var collectionView: UICollectionView!
@@ -50,15 +50,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tabBarController?.tabBar.isHidden = true
 
         let pop_blue = UIColor(colorLiteralRed: 29/255, green: 171/255, blue: 184/255, alpha: 1)
-        header.backgroundColor = pop_blue
-        statusbar_view.backgroundColor = pop_blue
+        let off_white = UIColor(colorLiteralRed: 255/255, green: 255/255, blue: 247/255, alpha: 1)
+        header.backgroundColor = off_white
+        statusbar_view.backgroundColor = off_white
         
         set_first_topic()
         self.tableview.delegate = self
         self.tableview.dataSource = self
         self.topicLabel.text = self.selected_topic
         self.inform_user()
-        self.does_user_exist()
+        
+        if loadedHomeVC == false{
+            self.start_loading(load_time: 4)
+        }
+        
+        var delayInSeconds = 2.60
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+            self.does_user_exist()
+        }
         self.check_time_to_get_feedback()
         
         // Do any additional setup after loading the view.
@@ -75,7 +84,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return .default//.lightContent
     }
     
     func initial_load(){
@@ -109,7 +118,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //display loading for 2 seconds, to hide the validation
         if loadedHomeVC == false{
             // won't load everytime user loads home tab
-            start_loading(load_time: 2)
+//            start_loading(load_time: 5)
         }
         var answer : String?
         let realm = try! Realm()
@@ -206,6 +215,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.topicLabel.text = "Handpicked"
             cell.topicImageView.image = UIImage(named: "handpicked")
             cell.board.layer.cornerRadius = 4
+//            cell.topicLabel.layer.borderWidth = 1
+            cell.topicLabel.layer.borderColor = UIColor.white.cgColor
+            cell.topicLabel.layer.cornerRadius = 6
 //            cell.board.backgroundColor = UIColor.clear
 
             return cell
@@ -223,6 +235,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.topicImageView.layer.masksToBounds = true
             // i dont know if any of this works
             
+//            cell.topicLabel.layer.borderWidth = 1
+            cell.topicLabel.layer.borderColor = UIColor.white.cgColor
+            cell.topicLabel.layer.cornerRadius = 6
+
             if self.topics[index].title != nil{
                 cell.topicLabel.text = self.topics[index].title!
             }
@@ -311,7 +327,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 77, height: 85)
+        
+        var sizingNibNew = Topic_CollectionCell()
+
+//        let width = collectionView.frame.size.width - collectionView.sectionInset.left - collectionView.sectionInset.right
+
+        let width = sizingNibNew.systemLayoutSizeFitting(CGSize(width: .max, height: 85), withHorizontalFittingPriority: UILayoutPriorityRequired, verticalFittingPriority: UILayoutPriorityFittingSizeLevel).height
+
+
+        return CGSize(width: width, height: 85)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -426,7 +450,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var indexx = indexPath.row - 1
         if indexPath.row == 0{
             //Header Cell
-            return 90//322 //shrinking for a better look (sometimes less is more)
+            return 40//90//322 //shrinking for a better look (sometimes less is more)
         }else if results.count > 0 && results[indexx].product != nil{
             return 92
         }else{
@@ -464,7 +488,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             if offset > 0{
                 offset = offset * -1
             }
-            let up = CGAffineTransform(translationX: 0, y: -83)//1 * (offset)) //originally 136 (1/18/17)
+            let up = CGAffineTransform(translationX: 0, y: -33)//-83)
             UIView.animate(withDuration: 0.600, animations: {
                 self.header?.transform = up
             })
@@ -1193,7 +1217,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         undercooked_image.image = UIImage(named: "white_k")
         
         let loadLabel = UILabel(frame: CGRect(x: 0, y: loadview.frame.height / 2 - 96, width: loadview.frame.width, height: 52))
-        loadLabel.textColor = UIColor.white
+        loadLabel.textColor = UIColor.darkGray
         loadLabel.textAlignment = .center
         loadLabel.font = UIFont(name: "SanchezSlab", size: 45)
         loadLabel.adjustsFontSizeToFitWidth = true
@@ -1204,8 +1228,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        loadview.addSubview(undercooked_image)
 //        let red = UIColor(colorLiteralRed: 255/255, green: 103/255, blue: 102/255, alpha: 1)
         let pop_blue = UIColor(colorLiteralRed: 29/255, green: 171/255, blue: 184/255, alpha: 1)
+        let off_white = UIColor(colorLiteralRed: 255/255, green: 255/255, blue: 247/255, alpha: 1)
 
-        loadview.backgroundColor = pop_blue
+        loadview.backgroundColor = off_white
         loadview.alpha = 0
         self.view.addSubview(loadview)
         loadview.fadeIn(duration: 0.6)
@@ -1218,7 +1243,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             var hp = loadview.frame.height / 2 - (size / 2)
             let frame = CGRect(x: xxp, y: hp, width: size, height: size)
             
-            self.actIndi = NVActivityIndicatorView(frame: frame, type: .lineScale, color: UIColor.white, padding: 3)
+            self.actIndi = NVActivityIndicatorView(frame: frame, type: .lineScale, color: UIColor.darkGray, padding: 3)
             self.actIndi?.startAnimating()
             self.actIndi?.alpha = 0
             
