@@ -124,9 +124,29 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SnapKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>VIMediaCache.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YouTubePlayer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>05C88D2AA2025C4DA7A14C312D5AA0F7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>09A62655F66AE53A474D64E42E6E9DF9</key>
 		<dict>
 			<key>primary</key>
@@ -137,7 +157,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>211EE2B073D818A02223735FE6CC72AC</key>
+		<key>1BEF435C841A34188148EA3F8FDC3CF8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -153,11 +173,6 @@
 			<true/>
 		</dict>
 		<key>3EDFE4052B5DE7D509935AC0774CB135</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>43B2808C3AF094CA977308AC1F9F88E6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -182,17 +197,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>69BA4FE6DE4F66DC11A82DB58CC85887</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>7335E9C9689F3B8A16F063A884748533</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>7C08227B6E14D87F0F5B0FD6DFFA1A3E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>86267C95AAF72919E5B4CB5F2AE5AD61</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -207,7 +222,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>91D5A7723257C1C1FF7D4FB045AFEEA6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9B7BEF22A2D2E5C2E4174836475BC47B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9CAA35E7121A14E0A5FBA978B70CE8B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -222,7 +247,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AAD3227DD45680B122875E6009F02DCE</key>
+		<key>BB21709DB767E5CB5C5FB5D9CD54D46F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -232,7 +257,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D1EDDB951E6588CE926A8551F506DA3E</key>
+		<key>CC46D278FDDE4B7A4BA94142781B70E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -242,7 +267,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F4A3FA1A316C73B1BE78AAF7B096FE95</key>
+		<key>F5A9D54E24E4AA171B327972E66AC48B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FC2AB587D9815608DD5F12044CD05DB1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

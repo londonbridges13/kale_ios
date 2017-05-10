@@ -20,6 +20,11 @@ target ‘Kale’ do
 	pod 'FacebookCore'
 	pod 'FacebookLogin'
 	pod 'FacebookShare'
+  	pod 'SnapKit'
+	pod 'VIMediaCache'
+	pod 'YouTubePlayer'
+
+
 
 
   target 'KaleTests' do

@@ -29,6 +29,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var actIndi : NVActivityIndicatorView?
     var jellyAnimator: JellyAnimator?
     var selected_topic = "Handpicked"
+    var selected_topic_id = 0
     var selected_topic_image : String? // url
     var selected_handpicked = true // checks if the handpicked topic was selected
     var topics = [Topic]()
@@ -38,6 +39,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var selected_article_url : String?
     var selected_article : Article?
     var loadedHomeVC = false
+    var loaded_all_cells = false
+    var isNewDataLoading = false
+    var pagination = 1
     //var dragAndDropManager : KDDragAndDropManager?
 
     override func viewDidLoad(){
@@ -288,6 +292,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if self.topics[index].title != nil{
                     self.topic_viewed = self.topics[index].title!
                     self.selected_topic = self.topics[index].title!
+                    self.selected_topic_id = self.topics[index].id!
                 }
                 if self.topics[index].id != nil{
                     self.get_topic_articles(topic_id: self.topics[index].id!)
@@ -353,7 +358,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //tableview
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results.count + 1 // For header cell
+        return results.count + 2 // For header cell and loading cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -370,7 +375,33 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             tableView.rowHeight = 322
             return cell
-        }else if results.count > 0 && results[indexx].article != nil{
+        }else if indexPath.row > results.count{
+            //LoadingCell
+            let cell : LoadingCell = tableview.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+       
+            
+            if !isNewDataLoading{
+                pagination += 1
+                isNewDataLoading = true
+                if selected_topic == "Handpicked"{
+                    print("getting more handpicked")
+//                    continue_handpicked_articles()
+                }else{
+                    print("getting more \(selected_topic)")
+                    continue_topic_articles(topic_id: selected_topic_id)
+                }
+            }
+          
+
+            if loaded_all_cells == true{
+                // display "All Done" label
+
+            }
+
+            
+            
+            return cell
+        }else if results.count > indexx && results[indexx].article != nil{
             // Display articles
             let cell: V2ArticleCell = tableview.dequeueReusableCell(withIdentifier: "V2ArticleCell", for: indexPath) as! V2ArticleCell
             
@@ -436,8 +467,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.shareButton.addTarget(self, action: #selector(HomeViewController.share_article), for: .touchUpInside)
             tableView.estimatedRowHeight = 615
             
+            if results.count == indexPath.row{
+                isNewDataLoading = false
+                print("isNewDataLoading = false")
+            }
+            
             return cell
-        }else{
+        }else{// if results.count > 0 && results[indexx].product != nil{
             // Display ProductCell
             let cell: ProductCell = tableview.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as! ProductCell
             
@@ -451,9 +487,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if indexPath.row == 0{
             //Header Cell
             return 40//90//322 //shrinking for a better look (sometimes less is more)
+        }else if indexPath.row > results.count{
+            return 130
         }else if results.count > 0 && results[indexx].product != nil{
             return 92
-        }else{
+        }else{// if results.count > 0 && results[indexx].product != nil{
             //Article
             return UITableViewAutomaticDimension
         }
@@ -476,6 +514,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         tableview.deselectRow(at: indexPath, animated: true)
         
+    }
+    
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if indexPath.row > results.count{
+//            // this is for the loadingcell
+//            let cell : LoadingCell = tableview.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+//            cell.awakeFromNib()
+//        }
+
     }
     
     
@@ -503,7 +551,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             })
         }
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //Bottom Refresh
+        print("Bottom Refresh, getting more results")
 
+        
+//            if ((scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height)
+//            {
+//                if !isNewDataLoading{
+//                    
+//                    pagination += 1
+//                    isNewDataLoading = true
+//                    if selected_topic == "Handpicked"{
+//                        print("getting more handpicked")
+//                        continue_handpicked_articles()
+//                    }else{
+//                        print("getting more \(selected_topic)")
+//                        continue_topic_articles(topic_id: selected_topic_id)
+//                    }
+//                }
+//            }
+    }
     
     
     func update_topic_order(){
@@ -592,7 +661,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 "utoken": user!.access_token!,
                 "utopic": topic.id!
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/topics/get_topic_image", method: .post, parameters: parameters).responseJSON { (response) in
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/get_topic_image", method: .post, parameters: parameters).responseJSON { (response) in
                 //                print(response.result.value!)
                 let topic_image_url = "\(response.result.value!)"
                 print(topic_image_url)
@@ -606,6 +675,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     func get_topic_articles(topic_id: Int){
+        pagination = 1
+        loaded_all_cells = false
         self.results.removeAll()
         
         let realm = try! Realm()
@@ -613,9 +684,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if user != nil && user?.access_token != nil && user?.client_token != nil{
             let parameters: Parameters = [
                 "access_token": user!.client_token!,
-                "utopic": topic_id
+                "utopic": topic_id,
+                "page": pagination
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
                 if let articles = response.result.value as? NSArray{
                     for each in articles{
                         if let article = each as? NSDictionary{
@@ -666,8 +738,79 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+    func continue_topic_articles(topic_id: Int){
+//        self.results.removeAll()
+        
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utopic": topic_id,
+                "page": pagination
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
+                if let articles = response.result.value as? NSArray{
+                    for each in articles{
+                        if let article = each as? NSDictionary{
+                            // Inside Article
+                            var a = Article()
+                            var id = article["id"] as? Int
+                            if id != nil{
+                                a.id = id!
+                            }
+                            var title = article["title"] as? String
+                            if title != nil{
+                                a.title = title!
+                            }
+                            var desc = article["desc"] as? String
+                            if desc != nil{
+                                a.desc = desc!
+                            }
+                            var article_image_url = article["article_image_url"] as? String
+                            if article_image_url != nil{
+                                a.article_image_url = "\(article_image_url!)"
+                            }
+                            var article_url = article["article_url"] as? String
+                            if article_url != nil{
+                                a.article_url = "\(article_url!)"
+                            }
+                            var article_date = article["article_date"] as? String
+                            if article_date != nil{
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                let date = dateFormatter.date(from: article_date!)
+                                print("date: \(date)")
+                                a.article_date = date!
+                            }
+                            self.articles.append(a)
+                            var result = Searchable()
+                            result.article = a
+                            //                            self.results.append(result)
+                            self.get_article_resource(article: result)
+                            print(a.desc)
+                            print("\(self.results.count)")
+                            self.tableview.reloadData()
+                        }
+                    }
+                }else{
+                    // nil result
+                    print("loaded_all_cells")
+                    print(response.result.value)
+                    self.loaded_all_cells = true
+                }
+            }
+        }
+    }
+    
+
+    
     
     func get_handpicked_articles(){
+        pagination = 1
+        loaded_all_cells = false
+
         self.results.removeAll()
         print("Starting Handpicked_Query")
         let realm = try! Realm()
@@ -677,7 +820,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 "access_token": user!.client_token!,
                 "utoken": user!.access_token!
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/topics/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
                 print(response.result.value)
                 print("Handpicked_Query result above")
                 if let articles = response.result.value as? NSArray{
@@ -721,22 +864,100 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                             self.articles.append(a)
                             var result = Searchable()
                             result.article = a
-//                            self.results.append(result)
-//                            print(a.desc)
-//                            print("\(self.results.count)")
+                            //                            self.results.append(result)
+                            //                            print(a.desc)
+                            //                            print("\(self.results.count)")
                             self.get_article_resource(article: result)
-//                            self.tableview.reloadData()
+                            //                            self.tableview.reloadData()
                         }
                     }
+                }else if response.result.value == nil{
+                    // nil result
+                    self.loaded_all_cells = true
                 }
             }
         }
     }
 
     
+    func continue_handpicked_articles(){
+//        self.results.removeAll()
+        
+        print("Continuing Handpicked_Query")
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utoken": user!.access_token!
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
+                print(response.result.value)
+                print("Handpicked_Query result above")
+                if let articles = response.result.value as? NSArray{
+                    for each in articles{
+                        if let article = each as? NSDictionary{
+                            // Inside Article
+                            var a = Article()
+                            var id = article["id"] as? Int
+                            if id != nil{
+                                a.id = id!
+                            }
+                            var title = article["title"] as? String
+                            if title != nil{
+                                a.title = title!
+                            }
+                            var desc = article["desc"] as? String
+                            if desc != nil{
+                                a.desc = desc!
+                            }
+                            var article_image_url = article["article_image_url"] as? String
+                            if article_image_url != nil{
+                                a.article_image_url = "\(article_image_url!)"
+                            }
+                            var article_url = article["article_url"] as? String
+                            if article_url != nil{
+                                a.article_url = "\(article_url!)"
+                            }
+                            var display_topic = article["display_topic"] as? String
+                            if display_topic != nil{
+                                a.display_topic = "\(display_topic!)"
+                            }
+                            var article_date = article["article_date"] as? String
+                            if article_date != nil{
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                let date = dateFormatter.date(from: article_date!)
+                                print("date: \(date)")
+                                a.article_date = date!
+                            }
+                            self.articles.append(a)
+                            var result = Searchable()
+                            result.article = a
+                            //                            self.results.append(result)
+                            //                            print(a.desc)
+                            //                            print("\(self.results.count)")
+                            self.get_article_resource(article: result)
+                            //                            self.tableview.reloadData()
+                        }
+                    }
+                }else{
+                    // nil result
+                    print("loaded_all_cells")
+                    print(response.result.value)
+                    self.loaded_all_cells = true
+                }
+            }
+        }
+    }
+
+    
+    
     func get_article_resource(article : Searchable){
         print("starting get_article_resource ...")
         // sets the resource for the article, for user to know where article came from
+//        self.loaded_all_cells = true 
         let realm = try! Realm()
         var user = realm.objects(User).first
         if user != nil && user?.access_token != nil && user?.client_token != nil{

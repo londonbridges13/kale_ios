@@ -41,6 +41,9 @@ PODS:
   - Realm/Headers (2.1.0)
   - RealmSwift (2.1.0):
     - Realm (= 2.1.0)
+  - SnapKit (3.0.2)
+  - VIMediaCache (0.1)
+  - YouTubePlayer (0.3.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
@@ -57,6 +60,9 @@ DEPENDENCIES:
   - PullToMakeSoup (~> 2.0)
   - RAMPaperSwitch (~> 2.0.0)
   - RealmSwift
+  - SnapKit
+  - VIMediaCache
+  - YouTubePlayer
 
 EXTERNAL SOURCES:
   Hero:
@@ -88,7 +94,10 @@ SPEC CHECKSUMS:
   RAMPaperSwitch: 1b7a2cd640a0e5beda0e280ecb33c5704a3e20d1
   Realm: bc829ad0ef3d4eea70c34cfcc3b1704d18d50df1
   RealmSwift: a4d4abbf0088c337cab5b738054395842e4b3052
+  SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
+  VIMediaCache: 1f5fec19aa3a818a9a2e47fa2699b422c8530450
+  YouTubePlayer: 88713a96c356f2c88da8925eb61438eda88bcd57
 
-PODFILE CHECKSUM: c8b29b65504b708c469f2c5b46f13a0f85e6a945
+PODFILE CHECKSUM: 00b00400574b4a7f2abb5ad15f2235d2ee725dd3
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.2.1
