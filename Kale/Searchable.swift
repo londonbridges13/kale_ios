@@ -10,5 +10,6 @@ import Foundation
 
 class Searchable{
     var article : Article?
+    var video : Video?
     var product : Product?
 }

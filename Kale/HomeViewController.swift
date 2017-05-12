@@ -34,6 +34,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var selected_handpicked = true // checks if the handpicked topic was selected
     var topics = [Topic]()
     var articles = [Article]()
+    var videos = [Video]()
     var results = [Searchable]() // All Results, Products, Articles, Ads, Promotions
     var topic_viewed = "Handpicked"
     var selected_article_url : String?
@@ -473,6 +474,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             return cell
+        }else if results.count > indexx && results[indexx].video != nil{
+            let cell: VideoCell = tableview.dequeueReusableCell(withIdentifier: "VideoCellHome", for: indexPath) as! VideoCell
+            
+            // title
+            if results[indexx].article!.title != nil{
+                cell.titleLabel.text = results[indexx].article!.title!
+            }
+            // video image
+            if results[indexx].video!.video_image_url != nil{
+                cell.get_video_image(url: results[indexx].video!.video_image_url!)
+            }
+
+            return cell
         }else{// if results.count > 0 && results[indexx].product != nil{
             // Display ProductCell
             let cell: ProductCell = tableview.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as! ProductCell
@@ -491,6 +505,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             return 130
         }else if results.count > 0 && results[indexx].product != nil{
             return 92
+        }else if results.count > 0 && results[indexx].video != nil{
+            return 256
         }else{// if results.count > 0 && results[indexx].product != nil{
             //Article
             return UITableViewAutomaticDimension
@@ -826,49 +842,106 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if let articles = response.result.value as? NSArray{
                     for each in articles{
                         if let article = each as? NSDictionary{
-                            // Inside Article
-                            var a = Article()
-                            var id = article["id"] as? Int
-                            if id != nil{
-                                a.id = id!
+                            
+                            var resource_type = article["resource_type"] as? String
+                            if resource_type != nil{
+                                if resource_type == "video"{
+                                    // It's an video
+                                    print("Found a video")
+                                    // Inside Video
+                                    var v = Video()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        v.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        v.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        v.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        v.video_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        v.video_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        v.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        v.video_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.videos.append(v)
+                                    result.video = v
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(v.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }else{
+                                    // It's an article
+                                    // Inside Article
+                                    var a = Article()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        a.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        a.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        a.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        a.article_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        a.article_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        a.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        a.article_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.articles.append(a)
+                                    result.article = a
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(a.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }
                             }
-                            var title = article["title"] as? String
-                            if title != nil{
-                                a.title = title!
-                            }
-                            var desc = article["desc"] as? String
-                            if desc != nil{
-                                a.desc = desc!
-                            }
-                            var article_image_url = article["article_image_url"] as? String
-                            if article_image_url != nil{
-                                a.article_image_url = "\(article_image_url!)"
-                            }
-                            var article_url = article["article_url"] as? String
-                            if article_url != nil{
-                                a.article_url = "\(article_url!)"
-                            }
-                            var display_topic = article["display_topic"] as? String
-                            if display_topic != nil{
-                                a.display_topic = "\(display_topic!)"
-                            }
-                            var article_date = article["article_date"] as? String
-                            if article_date != nil{
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                let date = dateFormatter.date(from: article_date!)
-                                print("date: \(date)")
-                                a.article_date = date!
-                            }
-                            self.articles.append(a)
-                            var result = Searchable()
-                            result.article = a
-                            //                            self.results.append(result)
-                            //                            print(a.desc)
-                            //                            print("\(self.results.count)")
-                            self.get_article_resource(article: result)
-                            //                            self.tableview.reloadData()
                         }
                     }
                 }else if response.result.value == nil{

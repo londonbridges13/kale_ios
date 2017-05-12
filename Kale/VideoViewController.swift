@@ -28,6 +28,23 @@ class VideoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+            UIView.animate(withDuration: 0.45, animations: {
+                
+                self.videoPlayer.transform = CGAffineTransform(scaleX: 2, y: 1.3)
+                // fix here
+            })
+            
+        } else {
+            print("Portrait")
+            UIView.animate(withDuration: 0.45, animations: {
+                self.videoPlayer.transform = CGAffineTransform.identity
+
+            })
+        }
+    }
     
     func create_youtube_video(){
         var frame = CGRect(x: -20, y: 10, width: self.view.frame.width + 20, height: self.view.frame.width * (9.0/16.0))

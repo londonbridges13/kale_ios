@@ -1349,8 +1349,67 @@
                                             <outlet property="topicLabel" destination="wY9-mx-59j" id="hXA-zy-bpc"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="VideoCellHome" rowHeight="256" id="BGs-YA-zhc" customClass="VideoCell" customModule="Kale" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="442" width="320" height="256"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BGs-YA-zhc" id="5ka-4q-kiO">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="255"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XtA-Fc-M8q">
+                                                    <rect key="frame" x="17" y="10" width="285" height="230.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" Vegan School Lunch Ideas Vegan School Lunch Ideas" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNh-zl-LjG">
+                                                            <rect key="frame" x="46" y="166.5" width="231" height="56"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="56" id="ZlZ-vZ-IQ0"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fake_video cover" translatesAutoresizingMaskIntoConstraints="NO" id="SM5-RB-Qvq">
+                                                            <rect key="frame" x="0.0" y="0.0" width="285" height="165"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="165" id="SBe-20-UPi"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play_button" translatesAutoresizingMaskIntoConstraints="NO" id="bYX-Vr-Z0U">
+                                                            <rect key="frame" x="12" y="182" width="19" height="20"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="19" id="BCQ-VX-dAv"/>
+                                                                <constraint firstAttribute="height" constant="20" id="oq3-Oz-g3A"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="SM5-RB-Qvq" firstAttribute="leading" secondItem="XtA-Fc-M8q" secondAttribute="leading" id="5fM-Ly-Qmc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="aNh-zl-LjG" secondAttribute="bottom" constant="8" id="DdR-hV-H18"/>
+                                                        <constraint firstItem="bYX-Vr-Z0U" firstAttribute="leading" secondItem="XtA-Fc-M8q" secondAttribute="leading" constant="12" id="JH4-uR-qMh"/>
+                                                        <constraint firstItem="aNh-zl-LjG" firstAttribute="leading" secondItem="XtA-Fc-M8q" secondAttribute="leading" constant="46" id="MJt-NU-9H2"/>
+                                                        <constraint firstAttribute="trailing" secondItem="aNh-zl-LjG" secondAttribute="trailing" constant="8" id="NQ5-tT-h7J"/>
+                                                        <constraint firstItem="bYX-Vr-Z0U" firstAttribute="top" secondItem="SM5-RB-Qvq" secondAttribute="bottom" constant="17" id="YSA-eq-2zL"/>
+                                                        <constraint firstItem="SM5-RB-Qvq" firstAttribute="top" secondItem="XtA-Fc-M8q" secondAttribute="top" id="jth-W7-inL"/>
+                                                        <constraint firstAttribute="trailing" secondItem="SM5-RB-Qvq" secondAttribute="trailing" id="pAR-f1-Ve6"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="XtA-Fc-M8q" firstAttribute="top" secondItem="5ka-4q-kiO" secondAttribute="topMargin" constant="2" id="I1X-2I-iXD"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="XtA-Fc-M8q" secondAttribute="trailing" constant="10" id="a0D-Iv-gqg"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="XtA-Fc-M8q" secondAttribute="bottom" constant="7" id="hWr-O8-wQC"/>
+                                                <constraint firstItem="XtA-Fc-M8q" firstAttribute="leading" secondItem="5ka-4q-kiO" secondAttribute="leadingMargin" constant="9" id="lbS-Nj-wHe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="borderView" destination="XtA-Fc-M8q" id="rkb-nf-yXZ"/>
+                                            <outlet property="titleLabel" destination="aNh-zl-LjG" id="WSC-Xf-XIQ"/>
+                                            <outlet property="videoImageView" destination="SM5-RB-Qvq" id="5bh-AV-k6H"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCell" rowHeight="218" id="GKW-hC-ncG" customClass="ArticleCell" customModule="Kale" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="442" width="320" height="218"/>
+                                        <rect key="frame" x="0.0" y="698" width="320" height="218"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GKW-hC-ncG" id="rqz-uV-QMC">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="217"/>
@@ -1445,7 +1504,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoadingCell" rowHeight="170" id="8JU-sP-gC7" customClass="LoadingCell" customModule="Kale" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="660" width="320" height="170"/>
+                                        <rect key="frame" x="0.0" y="916" width="320" height="170"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8JU-sP-gC7" id="38q-KP-MgL">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="169"/>
@@ -1453,7 +1512,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="V2ArticleCell" rowHeight="615" id="5rc-BZ-ts6" customClass="V2ArticleCell" customModule="Kale" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="830" width="320" height="615"/>
+                                        <rect key="frame" x="0.0" y="1086" width="320" height="615"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5rc-BZ-ts6" id="6aM-P9-Y2R">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="614"/>
@@ -3308,11 +3367,13 @@
         <image name="blue_back_button_image" width="15" height="25"/>
         <image name="breakfast" width="254" height="254"/>
         <image name="doctor" width="35" height="34"/>
+        <image name="fake_video cover" width="282" height="158"/>
         <image name="food-salad-healthy-lunch" width="5472" height="3648"/>
         <image name="handpicked" width="127" height="127"/>
         <image name="health_image" width="254" height="254"/>
         <image name="in-love" width="34" height="34"/>
         <image name="k icon (green)" width="32" height="32"/>
+        <image name="play_button" width="16" height="20"/>
         <image name="pointing" width="128" height="128"/>
         <image name="propic" width="47" height="48"/>
         <image name="red heart icon" width="25" height="21"/>

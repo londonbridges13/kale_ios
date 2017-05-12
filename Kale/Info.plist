@@ -66,6 +66,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>clientId</key>
 	<string>f23c9dafeed95aa5411bb8ad4bc8e731c2d60c1826455e1928e03e0d71fb5db3</string>
