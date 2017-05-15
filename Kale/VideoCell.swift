@@ -22,9 +22,9 @@ class VideoCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        borderView.layer.cornerRadius = 5
-        borderView.layer.borderWidth = 1
-        borderView.layer.borderColor = UIColor.lightGray.cgColor
+        borderView.layer.cornerRadius = 3
+//        borderView.layer.borderWidth = 1
+//        borderView.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -42,7 +42,7 @@ class VideoCell: UITableViewCell {
         print("using url: \(new_url)")
         let i_url = URL(string: new_url)
         videoImageView.kf.setImage(with: i_url)
-        videoImageView.layer.cornerRadius = 4
+        videoImageView.layer.cornerRadius = 3
     }
     
 

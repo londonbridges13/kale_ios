@@ -39,6 +39,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var topic_viewed = "Handpicked"
     var selected_article_url : String?
     var selected_article : Article?
+    var selected_video: Video?
     var loadedHomeVC = false
     var loaded_all_cells = false
     var isNewDataLoading = false
@@ -476,15 +477,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         }else if results.count > indexx && results[indexx].video != nil{
             let cell: VideoCell = tableview.dequeueReusableCell(withIdentifier: "VideoCellHome", for: indexPath) as! VideoCell
-            
+            print("Showing video cell")
             // title
-            if results[indexx].article!.title != nil{
-                cell.titleLabel.text = results[indexx].article!.title!
+            if results[indexx].video!.title != nil{
+                cell.titleLabel.text = results[indexx].video!.title!
             }
             // video image
             if results[indexx].video!.video_image_url != nil{
                 cell.get_video_image(url: results[indexx].video!.video_image_url!)
             }
+            
+            // shadow 
+//            cell.borderView.layer.shadowColor = UIColor.black.cgColor
+//            cell.borderView.layer.shadowOpacity = 0.6
+//            cell.borderView.layer.shadowOffset = CGSize(width: 0, height: 0.7)
+//            cell.borderView.layer.shadowRadius = 1.2
+            
+            tableView.estimatedRowHeight = 275
 
             return cell
         }else{// if results.count > 0 && results[indexx].product != nil{
@@ -501,12 +510,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if indexPath.row == 0{
             //Header Cell
             return 40//90//322 //shrinking for a better look (sometimes less is more)
-        }else if indexPath.row > results.count{
-            return 130
-        }else if results.count > 0 && results[indexx].product != nil{
+        }else if results.count > indexx && results[indexx].product != nil{
             return 92
-        }else if results.count > 0 && results[indexx].video != nil{
-            return 256
+        }else if results.count > indexx && results[indexx].video != nil{
+            return 275 //UITableViewAutomaticDimension // 275
+        }else if indexPath.row > results.count{
+            // Bottom, LoadingCell
+            return 130
         }else{// if results.count > 0 && results[indexx].product != nil{
             //Article
             return UITableViewAutomaticDimension
@@ -527,6 +537,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }else{
                 print("ITS NIL")
             }
+        }else if results[indexx].video != nil{
+            if results[indexx].video!.video_url != nil{
+                self.selected_article_url = results[indexx].video!.video_url!
+                self.selected_video = results[indexx].video!
+            }
+            self.segue_to_video()
         }
         tableview.deselectRow(at: indexPath, animated: true)
         
@@ -707,145 +723,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if let articles = response.result.value as? NSArray{
                     for each in articles{
                         if let article = each as? NSDictionary{
-                            // Inside Article
-                            var a = Article()
-                            var id = article["id"] as? Int
-                            if id != nil{
-                                a.id = id!
-                            }
-                            var title = article["title"] as? String
-                            if title != nil{
-                                a.title = title!
-                            }
-                            var desc = article["desc"] as? String
-                            if desc != nil{
-                                a.desc = desc!
-                            }
-                            var article_image_url = article["article_image_url"] as? String
-                            if article_image_url != nil{
-                                a.article_image_url = "\(article_image_url!)"
-                            }
-                            var article_url = article["article_url"] as? String
-                            if article_url != nil{
-                                a.article_url = "\(article_url!)"
-                            }
-                            var article_date = article["article_date"] as? String
-                            if article_date != nil{
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                let date = dateFormatter.date(from: article_date!)
-                                print("date: \(date)")
-                                a.article_date = date!
-                            }
-                            self.articles.append(a)
-                            var result = Searchable()
-                            result.article = a
-//                            self.results.append(result)
-                            self.get_article_resource(article: result)
-                            print(a.desc)
-                            print("\(self.results.count)")
-                            self.tableview.reloadData()
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    func continue_topic_articles(topic_id: Int){
-//        self.results.removeAll()
-        
-        let realm = try! Realm()
-        var user = realm.objects(User).first
-        if user != nil && user?.access_token != nil && user?.client_token != nil{
-            let parameters: Parameters = [
-                "access_token": user!.client_token!,
-                "utopic": topic_id,
-                "page": pagination
-            ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
-                if let articles = response.result.value as? NSArray{
-                    for each in articles{
-                        if let article = each as? NSDictionary{
-                            // Inside Article
-                            var a = Article()
-                            var id = article["id"] as? Int
-                            if id != nil{
-                                a.id = id!
-                            }
-                            var title = article["title"] as? String
-                            if title != nil{
-                                a.title = title!
-                            }
-                            var desc = article["desc"] as? String
-                            if desc != nil{
-                                a.desc = desc!
-                            }
-                            var article_image_url = article["article_image_url"] as? String
-                            if article_image_url != nil{
-                                a.article_image_url = "\(article_image_url!)"
-                            }
-                            var article_url = article["article_url"] as? String
-                            if article_url != nil{
-                                a.article_url = "\(article_url!)"
-                            }
-                            var article_date = article["article_date"] as? String
-                            if article_date != nil{
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                let date = dateFormatter.date(from: article_date!)
-                                print("date: \(date)")
-                                a.article_date = date!
-                            }
-                            self.articles.append(a)
-                            var result = Searchable()
-                            result.article = a
-                            //                            self.results.append(result)
-                            self.get_article_resource(article: result)
-                            print(a.desc)
-                            print("\(self.results.count)")
-                            self.tableview.reloadData()
-                        }
-                    }
-                }else{
-                    // nil result
-                    print("loaded_all_cells")
-                    print(response.result.value)
-                    self.loaded_all_cells = true
-                }
-            }
-        }
-    }
-    
-
-    
-    
-    func get_handpicked_articles(){
-        pagination = 1
-        loaded_all_cells = false
-
-        self.results.removeAll()
-        print("Starting Handpicked_Query")
-        let realm = try! Realm()
-        var user = realm.objects(User).first
-        if user != nil && user?.access_token != nil && user?.client_token != nil{
-            let parameters: Parameters = [
-                "access_token": user!.client_token!,
-                "utoken": user!.access_token!
-            ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
-                print(response.result.value)
-                print("Handpicked_Query result above")
-                if let articles = response.result.value as? NSArray{
-                    for each in articles{
-                        if let article = each as? NSDictionary{
-                            
                             var resource_type = article["resource_type"] as? String
                             if resource_type != nil{
-                                if resource_type == "video"{
+                                print("ResourceType : \(resource_type)")
+                                if resource_type!.contains("video"){
                                     // It's an video
                                     print("Found a video")
                                     // Inside Video
@@ -887,6 +768,273 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     var result = Searchable()
                                     self.videos.append(v)
                                     result.video = v
+                                    self.results.append(result)
+
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(v.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }else{
+                                    // It's an article
+                                    // Inside Article
+                                    var a = Article()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        a.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        a.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        a.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        a.article_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        a.article_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        a.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        a.article_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.articles.append(a)
+                                    result.article = a
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(a.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }
+                            }
+                            self.tableview.reloadData()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func continue_topic_articles(topic_id: Int){
+//        self.results.removeAll()
+        
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utopic": topic_id,
+                "page": pagination
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
+                if let articles = response.result.value as? NSArray{
+                    for each in articles{
+                        if let article = each as? NSDictionary{
+                            var resource_type = article["resource_type"] as? String
+                            if resource_type != nil{
+                                print("ResourceType : \(resource_type)")
+                                if resource_type!.contains("video"){
+                                    // It's an video
+                                    print("Found a video")
+                                    // Inside Video
+                                    var v = Video()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        v.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        v.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        v.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        v.video_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        v.video_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        v.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        v.video_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.videos.append(v)
+                                    result.video = v
+                
+                                    self.results.append(result)
+                                    
+                                    //                            print(v.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    self.tableview.reloadData()
+
+                                }else{
+                                    // It's an article
+                                    // Inside Article
+                                    var a = Article()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        a.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        a.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        a.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        a.article_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        a.article_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        a.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        a.article_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.articles.append(a)
+                                    result.article = a
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(a.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }
+                            }
+
+                            self.tableview.reloadData()
+                        }
+                    }
+                }else{
+                    // nil result
+                    print("loaded_all_cells")
+                    print(response.result.value)
+                    self.loaded_all_cells = true
+                }
+            }
+        }
+    }
+    
+
+    
+    
+    func get_handpicked_articles(){
+        pagination = 1
+        loaded_all_cells = false
+
+        self.results.removeAll()
+        print("Starting Handpicked_Query")
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utoken": user!.access_token!
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
+                print(response.result.value)
+                print("Handpicked_Query result above")
+                if let articles = response.result.value as? NSArray{
+                    for each in articles{
+                        if let article = each as? NSDictionary{
+                            
+                            var resource_type = article["resource_type"] as? String
+                            if resource_type != nil{
+                                print("ResourceType : \(resource_type)")
+                                if resource_type!.contains("video"){
+                                    // It's an video
+                                    print("Found a video")
+                                    // Inside Video
+                                    var v = Video()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        v.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        v.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        v.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        v.video_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        v.video_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        v.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        v.video_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.videos.append(v)
+                                    result.video = v
+                                    self.results.append(result)
+
                                     
                                     //                            self.results.append(result)
                                     //                            print(v.desc)
@@ -970,49 +1118,108 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if let articles = response.result.value as? NSArray{
                     for each in articles{
                         if let article = each as? NSDictionary{
-                            // Inside Article
-                            var a = Article()
-                            var id = article["id"] as? Int
-                            if id != nil{
-                                a.id = id!
+                            var resource_type = article["resource_type"] as? String
+                            if resource_type != nil{
+                                print("ResourceType : \(resource_type)")
+                                if resource_type!.contains("video"){
+                                    // It's an video
+                                    print("Found a video")
+                                    // Inside Video
+                                    var v = Video()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        v.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        v.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        v.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        v.video_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        v.video_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        v.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        v.video_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.videos.append(v)
+                                    result.video = v
+                                    self.results.append(result)
+
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(v.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }else{
+                                    // It's an article
+                                    // Inside Article
+                                    var a = Article()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        a.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        a.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        a.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        a.article_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        a.article_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        a.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        a.article_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.articles.append(a)
+                                    result.article = a
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(a.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }
                             }
-                            var title = article["title"] as? String
-                            if title != nil{
-                                a.title = title!
-                            }
-                            var desc = article["desc"] as? String
-                            if desc != nil{
-                                a.desc = desc!
-                            }
-                            var article_image_url = article["article_image_url"] as? String
-                            if article_image_url != nil{
-                                a.article_image_url = "\(article_image_url!)"
-                            }
-                            var article_url = article["article_url"] as? String
-                            if article_url != nil{
-                                a.article_url = "\(article_url!)"
-                            }
-                            var display_topic = article["display_topic"] as? String
-                            if display_topic != nil{
-                                a.display_topic = "\(display_topic!)"
-                            }
-                            var article_date = article["article_date"] as? String
-                            if article_date != nil{
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                                let date = dateFormatter.date(from: article_date!)
-                                print("date: \(date)")
-                                a.article_date = date!
-                            }
-                            self.articles.append(a)
-                            var result = Searchable()
-                            result.article = a
-                            //                            self.results.append(result)
-                            //                            print(a.desc)
-                            //                            print("\(self.results.count)")
-                            self.get_article_resource(article: result)
-                            //                            self.tableview.reloadData()
                         }
                     }
                 }else{
@@ -1034,10 +1241,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let realm = try! Realm()
         var user = realm.objects(User).first
         if user != nil && user?.access_token != nil && user?.client_token != nil{
+            var id : Int?
+            if article.article != nil{
+                id = article.article!.id!
+            }else if article.video != nil{
+                id = article.video!.id!
+            }
             // API Call for user profile pic, might not have one
             let parameters: Parameters = [
                 "access_token": user!.client_token!,
-                "uarticle": article.article!.id!
+                "uarticle": id!
             ]
             Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/resources/get_resource", method: .post, parameters: parameters).responseJSON { (response) in
                 //                print(response.result.value!)
@@ -1063,12 +1276,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         }
                         
                         article.article?.resource = r // already grabs image url
+                        article.video?.resource = r // already grabs image url
                         
                         print(r)
                         
                         // add to results and shuffle (handpicked)
 //                        self.results.append(article)
-                        self.did_user_like_article(article: article.article!)
+                        if article.article != nil{
+                            self.did_user_like_article(article: article.article!)
+                        }
 //                        if self.selected_handpicked == true{
 //                            // shuffle the array
 //                            self.results.shuffle()
@@ -1486,6 +1702,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         performSegue(withIdentifier: "segue_to_profile", sender: self)
     }
     
+    func segue_to_video(){
+        print("seguing")
+        performSegue(withIdentifier: "view video", sender: self)
+    }
     func tapped_home_button(){
         // move to the top of the tableview
         self.tableview.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
@@ -1626,6 +1846,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print("CustomUnwindSegue .Push")
                 (segue as! CustomUnwindSegue).animationType = .Push
             }
+        }
+        if segue.identifier == "view video"{
+            let vc : VideoViewController = segue.destination as! VideoViewController
+            vc.url_string = selected_article_url!
+            vc.current_video = self.selected_video!
+            
         }
         
     }
