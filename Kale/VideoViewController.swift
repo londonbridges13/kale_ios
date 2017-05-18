@@ -34,7 +34,8 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var timer = Timer()
     var reading_time = 0 // seconds
     var like_count: Int?
-
+    var selected_channel : Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -72,6 +73,10 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return .portrait
     }
 
+    @IBAction func unwind_to_VideoVC(segue : UIStoryboardSegue){
+        
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // Stop timer, send reading time
@@ -109,10 +114,13 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var indexx = indexPath.row
         if indexPath.row == 0{
-            // Deisplay VideoDescriptionCell
+            // Display VideoDescriptionCell
             let cell : VideoDescriptionCell = tableview.dequeueReusableCell(withIdentifier: "VideoDescriptionCell", for: indexPath) as! VideoDescriptionCell
 
             cell.shareButton.addTarget(self, action: "share_article", for: .touchUpInside)
+            
+            cell.channelButton.addTarget(self, action: "visit_this_channel", for: .touchUpInside)
+            
             if current_video != nil{
                 if current_video!.video_date != nil{
                     let date = current_video!.video_date!
@@ -206,8 +214,17 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     
+    func visit_this_channel(){
+        // visit the channel that is displaying the video
+        if current_video!.resource!.id != nil{
+            self.selected_channel = current_video!.resource!.id!
+            self.segue_to_channel()
+        }
+    }
     
-    
+    func segue_to_channel(){
+        performSegue(withIdentifier: "video to channel", sender: self)
+    }
     
     
     func create_youtube_video(){
@@ -461,14 +478,19 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "video to channel"{
+            let vc : ChannelViewController = segue.destination as! ChannelViewController
+            vc.channel_id = self.selected_channel!
+            
+        }
     }
-    */
+    
 
 }

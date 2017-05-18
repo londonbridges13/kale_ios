@@ -39,6 +39,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var topic_viewed = "Handpicked"
     var selected_article_url : String?
     var selected_article : Article?
+    var channel_id : Int?
     var selected_video: Video?
     var loadedHomeVC = false
     var loaded_all_cells = false
@@ -420,8 +421,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             if results[indexx].article!.resource != nil && results[indexx].article!.resource?.blogger != nil{
                 cell.bloggerLabel.text = results[indexx].article!.resource?.blogger!
+                cell.channel_id = results[indexx].article!.resource?.id!
+
             }
             if results[indexx].article!.resource != nil && results[indexx].article!.resource?.blogger_image_url != nil{
+//                cell.channelButton.addTarget(self, action: #selector(HomeViewController.segue_to_channel), for: .touchUpInside)
                 cell.get_blogger_image(url: results[indexx].article!.resource!.blogger_image_url!)
             }
             if results[indexx].article!.article_image_url != nil{
@@ -1372,6 +1376,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
+    // View Channel
+    func view_channel(channel_id: Int){
+        self.channel_id = channel_id
+        self.segue_to_channel()
+    }
+    
     func get_article_likes(article: Article){
         
         let realm = try! Realm()
@@ -1706,6 +1716,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("seguing")
         performSegue(withIdentifier: "view video", sender: self)
     }
+    
+    func segue_to_channel(){
+        performSegue(withIdentifier: "view channel", sender: self)
+    }
+    
     func tapped_home_button(){
         // move to the top of the tableview
         self.tableview.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
@@ -1852,6 +1867,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             vc.url_string = selected_article_url!
             vc.current_video = self.selected_video!
             
+        }
+        if segue.identifier == "view channel"{
+            let vc : ChannelViewController = segue.destination as! ChannelViewController
+            vc.channel_id = channel_id!
         }
         
     }

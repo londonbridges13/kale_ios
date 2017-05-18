@@ -15,6 +15,7 @@ import RealmSwift
 
 protocol ArtcleCellDelegate{
     func update_article_cell(article : Article)
+    func view_channel(channel_id: Int)
 }
 
 class V2ArticleCell: UITableViewCell {
@@ -26,10 +27,12 @@ class V2ArticleCell: UITableViewCell {
     @IBOutlet var bloggerLabel: UILabel!
     @IBOutlet var articleImageView: UIImageView!
     @IBOutlet var bloggerImageView: UIImageView!
+    @IBOutlet var channelButton: UIButton!
     @IBOutlet var shareButton: UIButton! // new v2
     @IBOutlet var likeButton: UIButton! // new v2
     @IBOutlet var likeCountLabel: UILabel!
 
+    var channel_id : Int?
     var done = false // make sure the cell doesn't load twice
     var l_article: Article?
     
@@ -44,7 +47,7 @@ class V2ArticleCell: UITableViewCell {
         // Initialization code
         likeButton.addTarget(self, action: #selector(V2ArticleCell.like_article), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(V2ArticleCell.change_button), for: .touchUpInside)
-        
+        channelButton.addTarget(self, action: "view_channel", for: .touchUpInside)
 
         
     }
@@ -54,6 +57,7 @@ class V2ArticleCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
+    
     
     
     func get_article_image(url:String){
@@ -92,6 +96,17 @@ class V2ArticleCell: UITableViewCell {
         }
     }
     
+    func view_channel(){
+        if let delegate = delegate{
+            if channel_id != nil{
+                delegate.view_channel(channel_id: channel_id!)
+            }else{
+                print("no id for channel")
+            }
+        }else{
+            print("Can't Delegate")
+        }
+    }
     
     
     

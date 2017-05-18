@@ -18,6 +18,7 @@ class VideoDescriptionCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var resourceImageView: UIImageView!
     @IBOutlet var shareButton: UIButton! // set the action in vvc
+    @IBOutlet var channelButton: UIButton! // button to visit channel
 
     
     override func awakeFromNib() {
