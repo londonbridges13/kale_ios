@@ -12,7 +12,7 @@ import YouTubePlayer
 import Alamofire
 import RealmSwift
 
-class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ArtcleCellDelegate {
 
     var player: BMPlayer!
     @IBOutlet var videoPlayer: YouTubePlayerView!
@@ -24,6 +24,7 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet var backButton : UIButton!
     @IBOutlet var unwind_homeVC_button: UIButton!
     @IBOutlet var unwind_proVC_button: UIButton!
+    @IBOutlet var unwind_channelVC_button : UIButton!
 
     var url_string : String?
     var url : URL?
@@ -35,6 +36,7 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var reading_time = 0 // seconds
     var like_count: Int?
     var selected_channel : Int?
+    var selected_article  : Article?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +52,9 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if current_video != nil{
             self.did_user_like_video()
             self.get_video_likes()
+            self.get_recommendations()
         }
-        self.likeButton.addTarget(self, action: "like_video", for: .touchUpInside)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,7 +115,7 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return recommendations.count + 1 // for the VideoDescriptionCell
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var indexx = indexPath.row
+        var indexx = indexPath.row - 1
         if indexPath.row == 0{
             // Display VideoDescriptionCell
             let cell : VideoDescriptionCell = tableview.dequeueReusableCell(withIdentifier: "VideoDescriptionCell", for: indexPath) as! VideoDescriptionCell
@@ -153,35 +156,77 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }else if recommendations.count > indexx && recommendations[indexx].article != nil{
             // Display Article Cell
             
-            let cell : ArticleCell = tableview.dequeueReusableCell(withIdentifier: "ArticleCellInProduct", for: indexPath) as! ArticleCell
-            if recommendations.count > 0 && recommendations[indexx].article != nil{
-                if recommendations[indexx].article!.title != nil{
-                    cell.titleLabel.text = recommendations[indexx].article!.title!
-                }
-                if recommendations[indexx].article!.desc != nil{
-                    cell.descLabel.text = recommendations[indexx].article!.desc!
-                }
-                if recommendations[indexx].article!.resource_title != nil{
-                    cell.resourceLabel.text = recommendations[indexx].article!.resource_title!
-                }
-                if recommendations[indexx].article!.article_image_url != nil{
-                    cell.get_article_image(url: recommendations[indexx].article!.article_image_url!)
-                    cell.articleImageView.backgroundColor = UIColor.clear
-                }
-                if recommendations[indexx].article!.article_date != nil{
-                    let date = recommendations[indexx].article!.article_date!
-                    
-                    cell.dateLabel.text = date.dashedStringFromDate()
-                }
-                
-                
+            let cell: V2ArticleCell = tableview.dequeueReusableCell(withIdentifier: "V2ArticleCellVideo", for: indexPath) as! V2ArticleCell
+            
+            cell.delegate = self
+            if recommendations[indexx].article != nil{
+                cell.l_article = recommendations[indexx].article!
             }
-            cell.topicLabel.text = ""
+            //            cell.topicLabel.text = self.selected_topic
+            if recommendations[indexx].article!.title != nil{
+                cell.titleLabel.text = recommendations[indexx].article!.title!
+            }
+            if recommendations[indexx].article!.desc != nil{
+                cell.descLabel.text = recommendations[indexx].article!.desc!
+            }
+            if recommendations[indexx].article!.resource != nil && recommendations[indexx].article!.resource?.blogger != nil{
+                cell.bloggerLabel.text = recommendations[indexx].article!.resource?.blogger!
+            }
+            if recommendations[indexx].article!.resource != nil && recommendations[indexx].article!.resource?.blogger_image_url != nil{
+                cell.get_blogger_image(url: recommendations[indexx].article!.resource!.blogger_image_url!)
+            }
+            if recommendations[indexx].article!.article_image_url != nil{
+                
+                cell.get_article_image(url: recommendations[indexx].article!.article_image_url!)
+                cell.articleImageView.backgroundColor = UIColor.clear
+            }
+            if recommendations[indexx].article!.article_date != nil{
+                let date = recommendations[indexx].article!.article_date!
+                
+                cell.dateLabel.text = date.dashedStringFromDate()
+            }
+            
+            
+            
+            if cell.l_article != nil{
+                if cell.l_article!.set_likes == false {
+                    // load cell here
+                    cell.likeCountLabel.text = ""
+                    cell.likeButton.isSelected = false
+                }else{
+                    // set like count label and heartbutton
+                    if cell.l_article!.likes == nil{
+                        cell.likeCountLabel.text = ""
+                    }else{
+                        let x = cell.l_article!.title!.numberOfVowels + cell.l_article!.likes
+                        cell.likeCountLabel.text = " \(x)"//" \(count)"
+                        //                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
+                    }
+                }
+                
+                if cell.l_article!.user_like == true{
+                    // full red circle
+                    cell.likeButton.setImage(UIImage(named: "selected heart icon"), for: .normal)
+                }else{
+                    cell.likeButton.setImage(UIImage(named: "red heart icon"), for: .normal)
+                }
+            }else{
+                // can't find article, set default like button
+                cell.likeButton.setImage(UIImage(named: "red heart icon"), for: .normal)
+                cell.likeCountLabel.text = ""
+            }
+            
+            
+            
+            cell.shareButton.tag = indexx
+            cell.shareButton.addTarget(self, action: #selector(HomeViewController.share_article), for: .touchUpInside)
+            tableView.estimatedRowHeight = 615
+            
+           
             
             return cell
-            
         }else if recommendations.count > indexx && recommendations[indexx].video != nil{
-            let cell: VideoCell = tableview.dequeueReusableCell(withIdentifier: "VideoCellHome", for: indexPath) as! VideoCell
+            let cell: VideoCell = tableview.dequeueReusableCell(withIdentifier: "VideoCellVideo", for: indexPath) as! VideoCell
             print("Showing video cell")
             // title
             if recommendations[indexx].video!.title != nil{
@@ -211,8 +256,64 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var indexx = indexPath.row - 1
+        if indexPath.row == 0{
+            //Header Cell
+            return 155//90//322 //shrinking for a better look (sometimes less is more)
+        }else if recommendations.count > indexx && recommendations[indexx].product != nil{
+            return 92
+        }else if recommendations.count > indexx && recommendations[indexx].video != nil{
+            return 275 //UITableViewAutomaticDimension // 275
+        }else{// if recommendations.count > 0 && recommendations[indexx].product != nil{
+            //Article
+            return 595//UITableViewAutomaticDimension
+        }
+    }
     
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var indexx = indexPath.row - 1
+        if indexPath.row == 0{
+            //Header Cell, do nothing
+        }else if recommendations[indexx].product != nil{
+            //            self.display_product()
+        }else if recommendations[indexx].article != nil{
+            // visit article url
+            self.selected_article = recommendations[indexx].article!
+            if recommendations[indexx].article!.article_url != nil{
+                self.segue_to_article()
+            }else{
+                print("ITS NIL")
+            }
+        }else if recommendations[indexx].video != nil && recommendations[indexx].video!.video_url != nil{
+            //load this video in this vc
+            self.current_video = recommendations[indexx].video!
+            self.url_string = recommendations[indexx].video!.video_url!
+            self.create_youtube_video()
+            self.tableview.reloadData()
+        }
+        tableview.deselectRow(at: indexPath, animated: true)
+        
+    }
+
+    
+    // ArticleDelegate
+    func update_article_cell(article : Article){
+        // find this article in the array (by id), then update the article
+        
+        article.set_likes = true
+        var searchable = Searchable()
+        searchable.article = article
+        //            results[index].article = article
+        self.tableview.reloadData()
+     
+    }
+    func view_channel(channel_id: Int){
+        print("I am the channel silly")
+    }
+
+
     
     func visit_this_channel(){
         // visit the channel that is displaying the video
@@ -324,10 +425,12 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
             ]
             Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/articles/like_an_article", method: .post, parameters: parameters).responseJSON { (response) in
                 if let count = response.result.value as? Int{
-                    if count != 0{
-                        self.likeCountLabel.text = " \(count)"
+                    if count != nil{//0{
+                        let x = self.current_video!.title!.numberOfVowels + count
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
                     }else{
-                        self.likeCountLabel.text = ""
+                        let x = self.current_video!.title!.numberOfVowels
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
                     }
                     print(response.result.value)
                 }
@@ -347,9 +450,14 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
             ]
             Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/articles/get_article_like_count", method: .post, parameters: parameters).responseJSON { (response) in
                 if let count = response.result.value as? Int{
-                    if count != 0{
-                        self.likeCountLabel.text = " \(count)"
+                    if count != nil{//0{
+                        let x = self.current_video!.title!.numberOfVowels + count
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
+                    }else{
+                        let x = self.current_video!.title!.numberOfVowels
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
                     }
+
                     print(response.result.value)
                 }
             }
@@ -389,7 +497,214 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     
-//trash create_video
+    
+    func get_recommendations(){
+        self.recommendations.removeAll()
+        print("Starting Handpicked_Query")
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utoken": user!.access_token!
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/articles/recommended_articles", method: .post, parameters: parameters).responseJSON { (response) in
+                print(response.result.value)
+                print("Handpicked_Query result above")
+                if let articles = response.result.value as? NSArray{
+                    for each in articles{
+                        if let article = each as? NSDictionary{
+                            
+                            var resource_type = article["resource_type"] as? String
+                            if resource_type != nil{
+                                print("ResourceType : \(resource_type)")
+                                if resource_type!.contains("video"){
+                                    // It's an video
+                                    print("Found a video")
+                                    // Inside Video
+                                    var v = Video()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        v.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        v.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        v.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        v.video_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        v.video_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        v.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        v.video_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    result.video = v
+                                    self.recommendations.append(result)
+                                    
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(v.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }else{
+                                    // It's an article
+                                    // Inside Article
+                                    var a = Article()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        a.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        a.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        a.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        a.article_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        a.article_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        a.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        a.article_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    result.article = a
+                                    self.recommendations.append(result)
+
+                                    //                            self.results.append(result)
+                                    //                            print(a.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }
+                            }
+                        }
+                    }
+                }else if response.result.value == nil{
+                    // nil result
+                }
+            }
+        }
+
+    }
+    
+    
+    
+    func get_article_resource(article : Searchable){
+        print("starting get_article_resource ...")
+        // sets the resource for the article, for user to know where article came from
+        //        self.loaded_all_cells = true
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            var id : Int?
+            if article.article != nil{
+                id = article.article!.id!
+            }else if article.video != nil{
+                id = article.video!.id!
+            }
+            // API Call for user profile pic, might not have one
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "uarticle": id!
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/resources/get_resource", method: .post, parameters: parameters).responseJSON { (response) in
+                //                print(response.result.value!)
+                if response.result.value != nil{
+                    
+                    if let resource = response.result.value as? NSDictionary{
+                        // Inside Resource
+                        var r = Resource()
+                        var title = resource["title"] as? String?
+                        if title != nil{
+                            r.blogger = title!
+                        }
+                        
+                        var image_url = resource["article_image_url"] as? String // using article model to display resource and url in same query
+                        if image_url != nil{
+                            r.blogger_image_url = image_url!
+                            print("Hey blogger url: \(image_url!)")
+                        }
+                        
+                        var id = resource["id"] as? Int
+                        if id != nil{
+                            r.id = id!
+                        }
+                        
+                        article.article?.resource = r // already grabs image url
+                        article.video?.resource = r // already grabs image url
+                        
+                        print(r)
+                        
+                        // add to results and shuffle (handpicked)
+                        //                        self.results.append(article)
+                        if article.article != nil{
+                            article.article!.did_user_like_article()
+                        }
+                        //                        if self.selected_handpicked == true{
+                        //                            // shuffle the array
+                        //                            self.results.shuffle()
+                        //                        }else{
+                        //                            // organize by dates
+                        //
+                        //                        }
+                        
+                        print("done -- get_topics")
+                        self.tableview.reloadData()
+                        
+                    }
+                    
+                }else{
+                    print("Resource.Article ERROR \(article.article!.id!)")
+                    self.tableview.reloadData()
+                }
+            }
+        }
+    }
+    
+
+    
+    
+    
+//trash create_video TRASH
     func create_video(){
         player = BMPlayer()
         view.addSubview(player)
@@ -420,6 +735,9 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if action == "profile"{
             // came from profile View Controller, unwind using unwind_proVC_button
             self.backButton.addTarget(self, action: #selector(VideoViewController.unwind_profile), for: .touchUpInside)
+        }else if action == "channel"{
+            self.backButton.addTarget(self, action: #selector(VideoViewController.unwind_channel), for: .touchUpInside)
+
         }else{
             // came from home tab
             self.backButton.addTarget(self, action: #selector(VideoViewController.unwind_home), for: .touchUpInside)
@@ -432,6 +750,7 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
             self.likeButton.addTarget(self, action: #selector(VideoViewController.change_button), for: .touchUpInside)
         }
 
+        
     }
     
     
@@ -477,7 +796,13 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         unwind_proVC_button.sendActions(for: .touchUpInside)
     }
 
+    func unwind_channel(){
+        unwind_channelVC_button.sendActions(for: .touchUpInside)
+    }
     
+    func segue_to_article(){
+        self.performSegue(withIdentifier: "video_to_article", sender: self)
+    }
     
     // MARK: - Navigation
 
@@ -486,9 +811,17 @@ class VideoViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "video to channel"{
-            let vc : ChannelViewController = segue.destination as! ChannelViewController
+            let vvc : UINavigationController = segue.destination as! UINavigationController
+            let vc : ChannelViewController = vvc.childViewControllers.first as! ChannelViewController
             vc.channel_id = self.selected_channel!
+            vc.action = "video"
             
+        }
+        if segue.identifier == "video_to_article"{
+            let vc : ArticleViewController = segue.destination as! ArticleViewController
+            vc.article_url = self.selected_article!.article_url!
+            vc.article = self.selected_article
+            vc.action = "video"
         }
     }
     

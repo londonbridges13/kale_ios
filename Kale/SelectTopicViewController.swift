@@ -288,7 +288,8 @@ class SelectTopicViewController: UIViewController, UICollectionViewDelegate, UIC
                     print(result)
                 }
                 print(response.result.value as? String)
-                self.go_home()
+//                self.go_home()
+                self.segue_to_suggested_channels()
             }
         }
         
@@ -306,14 +307,32 @@ class SelectTopicViewController: UIViewController, UICollectionViewDelegate, UIC
         }
 
     }
-    /*
+    
+    
+    func segue_to_suggested_channels(){
+        performSegue(withIdentifier: "recommended channels", sender: self)
+    }
+    
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "recommended channels"{
+            // segue the ids of the selected topics
+            var topic_ids = [Int]()
+            for each in self.my_topics{
+                topic_ids.append(each.id!)
+            }
+            var vc : SuggestedChannelsViewController = segue.destination as! SuggestedChannelsViewController
+            vc.topic_ids = topic_ids
+            vc.delegate = self.delegate!
+        }
     }
-    */
+    
 
 }

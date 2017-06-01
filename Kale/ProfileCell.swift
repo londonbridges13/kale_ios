@@ -18,6 +18,7 @@ class ProfileCell: UITableViewCell {
     @IBOutlet var lowerView: UIView!
     @IBOutlet var settingsButton: UIButton!
     @IBOutlet var topicsButton: UIButton!
+    @IBOutlet var followingButton: UIButton!
     @IBOutlet var nameLabel : UILabel!
     @IBOutlet var update_image_button : UIButton!
     var actIndi : NVActivityIndicatorView?

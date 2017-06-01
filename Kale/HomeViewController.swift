@@ -90,6 +90,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+        return .portrait
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default//.lightContent
     }
@@ -107,7 +117,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.display_floating_tab_bar()
             }
             self.get_topics()
-            self.get_handpicked_articles()
+//            self.get_handpicked_articles()
+            new_get_handpicked_articles()
         }else{
             // no longer needed, this is down in the "does_user_have_topics" and "does_user_exist"
             // go to loadVC which will redirect you to onboarding
@@ -276,7 +287,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             var delayInSeconds = 0.35
             // I deleyed the process because I didn't want the user to see the content load before the loading screen appeared.
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
-                self.get_handpicked_articles()
+//                self.get_handpicked_articles()
+                self.new_get_handpicked_articles()
             }
             
         }else{
@@ -388,7 +400,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 isNewDataLoading = true
                 if selected_topic == "Handpicked"{
                     print("getting more handpicked")
-//                    continue_handpicked_articles()
+                    continue_handpicked_articles()
                 }else{
                     print("getting more \(selected_topic)")
                     continue_topic_articles(topic_id: selected_topic_id)
@@ -448,10 +460,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     cell.likeButton.isSelected = false
                 }else{
                     // set like count label and heartbutton
-                    if cell.l_article!.likes == 0{
+                    if cell.l_article!.likes == nil{//0{
                         cell.likeCountLabel.text = ""
                     }else{
-                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
+                        let x = cell.l_article!.title!.numberOfVowels + cell.l_article!.likes
+                        cell.likeCountLabel.text = " \(x)"//" \(count)"
+//                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
                     }
                 }
                 
@@ -499,6 +513,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             tableView.estimatedRowHeight = 275
 
+            if results.count == indexPath.row{
+                isNewDataLoading = false
+                print("isNewDataLoading = false")
+            }
+            
             return cell
         }else{// if results.count > 0 && results[indexx].product != nil{
             // Display ProductCell
@@ -772,7 +791,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     var result = Searchable()
                                     self.videos.append(v)
                                     result.video = v
-                                    self.results.append(result)
+//                                    self.results.append(result)
 
                                     
                                     //                            self.results.append(result)
@@ -899,7 +918,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     self.videos.append(v)
                                     result.video = v
                 
-                                    self.results.append(result)
+//                                    self.results.append(result)
                                     
                                     //                            print(v.desc)
                                     //                            print("\(self.results.count)")
@@ -1037,7 +1056,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     var result = Searchable()
                                     self.videos.append(v)
                                     result.video = v
-                                    self.results.append(result)
+//                                    self.results.append(result) // do in the get_article_resource
 
                                     
                                     //                            self.results.append(result)
@@ -1105,20 +1124,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     
-    func continue_handpicked_articles(){
-//        self.results.removeAll()
+    func new_get_handpicked_articles(){
+        pagination = 1
+        loaded_all_cells = false
+        self.results.removeAll()
         
-        print("Continuing Handpicked_Query")
         let realm = try! Realm()
         var user = realm.objects(User).first
         if user != nil && user?.access_token != nil && user?.client_token != nil{
             let parameters: Parameters = [
                 "access_token": user!.client_token!,
-                "utoken": user!.access_token!
+                "utoken": user!.access_token!,
+                "page": pagination
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
-                print(response.result.value)
-                print("Handpicked_Query result above")
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/articles/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
                 if let articles = response.result.value as? NSArray{
                     for each in articles{
                         if let article = each as? NSDictionary{
@@ -1167,8 +1186,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     var result = Searchable()
                                     self.videos.append(v)
                                     result.video = v
-                                    self.results.append(result)
-
+//                                    self.results.append(result)
+                                    
                                     
                                     //                            self.results.append(result)
                                     //                            print(v.desc)
@@ -1224,6 +1243,134 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                     //                            self.tableview.reloadData()
                                 }
                             }
+                            self.tableview.reloadData()
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    
+    func continue_handpicked_articles(){
+        
+        print("Continuing Handpicked_Query")
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utoken": user!.access_token!,
+                "page": pagination
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/articles/handpicked_articles", method: .post, parameters: parameters).responseJSON { (response) in
+                if let articles = response.result.value as? NSArray{
+                    for each in articles{
+                        if let article = each as? NSDictionary{
+                            var resource_type = article["resource_type"] as? String
+                            if resource_type != nil{
+                                print("ResourceType : \(resource_type)")
+                                if resource_type!.contains("video"){
+                                    // It's an video
+                                    print("Found a video")
+                                    // Inside Video
+                                    var v = Video()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        v.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        v.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        v.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        v.video_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        v.video_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        v.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        v.video_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.videos.append(v)
+                                    result.video = v
+                                    
+//                                    self.results.append(result)
+                                    
+                                    //                            print(v.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    self.tableview.reloadData()
+                                    
+                                }else{
+                                    // It's an article
+                                    // Inside Article
+                                    var a = Article()
+                                    var id = article["id"] as? Int
+                                    if id != nil{
+                                        a.id = id!
+                                    }
+                                    var title = article["title"] as? String
+                                    if title != nil{
+                                        a.title = title!
+                                    }
+                                    var desc = article["desc"] as? String
+                                    if desc != nil{
+                                        a.desc = desc!
+                                    }
+                                    var article_image_url = article["article_image_url"] as? String
+                                    if article_image_url != nil{
+                                        a.article_image_url = "\(article_image_url!)"
+                                    }
+                                    var article_url = article["article_url"] as? String
+                                    if article_url != nil{
+                                        a.article_url = "\(article_url!)"
+                                    }
+                                    var display_topic = article["display_topic"] as? String
+                                    if display_topic != nil{
+                                        a.display_topic = "\(display_topic!)"
+                                    }
+                                    var article_date = article["article_date"] as? String
+                                    if article_date != nil{
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        let date = dateFormatter.date(from: article_date!)
+                                        print("date: \(date)")
+                                        a.article_date = date!
+                                    }
+                                    
+                                    var result = Searchable()
+                                    self.articles.append(a)
+                                    result.article = a
+                                    
+                                    //                            self.results.append(result)
+                                    //                            print(a.desc)
+                                    //                            print("\(self.results.count)")
+                                    self.get_article_resource(article: result)
+                                    //                            self.tableview.reloadData()
+                                }
+                            }
+                            
+                            self.tableview.reloadData()
                         }
                     }
                 }else{
@@ -1288,6 +1435,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                        self.results.append(article)
                         if article.article != nil{
                             self.did_user_like_article(article: article.article!)
+                        }else{
+                            self.did_user_like_video(video : article.video!)
                         }
 //                        if self.selected_handpicked == true{
 //                            // shuffle the array
@@ -1361,20 +1510,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // when user likes the article or comments
     func update_article_cell(article : Article){
         // find this article in the array (by id), then update the article
-//        if let index = results.index(where: { $0.article != nil && $0.article!.id == article.id! }) {
-            // use index to update the array
-//            print("Updating Cell: \(index)")
+
             article.set_likes = true
             var searchable = Searchable()
             searchable.article = article
             results.append(searchable)
-//            results[index].article = article
             self.tableview.reloadData()
-//        }else{
-//            print("Didn't find index")
-//        }
+
     }
     
+    func update_video_cell(video : Video){
+        // find this article in the array (by id), then update the article
+        
+        video.set_likes = true
+        var searchable = Searchable()
+        searchable.video = video
+        results.append(searchable)
+        self.tableview.reloadData()
+        
+    }
     
     // View Channel
     func view_channel(channel_id: Int){
@@ -1402,7 +1556,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
+    }
+    func get_video_likes(video: Video){
         
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "uarticle" : video.id!
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/articles/get_article_like_count", method: .post, parameters: parameters).responseJSON { (response) in
+                if let count = response.result.value as? Int{
+                    video.likes = count
+                    
+                    self.update_video_cell(video: video)
+                    if count != 0{
+                    }
+                    print(response.result.value)
+                }
+            }
+        }
     }
     
     func did_user_like_article(article: Article){
@@ -1415,16 +1589,40 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 "utoken": user!.access_token!,
                 "uarticle" : article.id!
             ]
-                Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/users/did_user_like_article", method: .post, parameters: parameters).responseJSON { (response) in
-                    print("Result: \(response.result.value)")
-                    self.get_article_likes(article: article)
-                    if let result = response.result.value as? Bool{
-                        article.user_like = result
-//                        self.update_article_cell(article: article)
-
-                        print("done did_user_like_article")
-                    }
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/users/did_user_like_article", method: .post, parameters: parameters).responseJSON { (response) in
+                print("Result: \(response.result.value)")
+                self.get_article_likes(article: article)
+                if let result = response.result.value as? Bool{
+                    article.user_like = result
+                    //                        self.update_article_cell(article: article)
+                    
+                    print("done did_user_like_article")
                 }
+            }
+        }
+        
+    }
+    
+    func did_user_like_video(video: Video){
+        print("starting did_user_like_video")
+        let realm = try! Realm()
+        var user = realm.objects(User).first
+        if user != nil && user?.access_token != nil && user?.client_token != nil{
+            let parameters: Parameters = [
+                "access_token": user!.client_token!,
+                "utoken": user!.access_token!,
+                "uarticle" : video.id!
+            ]
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/users/did_user_like_article", method: .post, parameters: parameters).responseJSON { (response) in
+                print("Result: \(response.result.value)")
+                self.get_video_likes(video: video)
+                if let result = response.result.value as? Bool{
+                    video.user_like = result
+                    //                        self.update_article_cell(article: article)
+                    
+                    print("done did_user_like_video")
+                }
+            }
         }
         
     }
@@ -1582,8 +1780,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
                 let adelayInSeconds = 0.25
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + adelayInSeconds) {
-                    self.display_guide_for_topics()
+//                    self.display_guide_for_topics()
                 }
+                let delayInSeconds = 0.25
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+                    self.display_welcome()
+                }
+
             }else{
                 print("informed user")
             }
@@ -1616,9 +1819,39 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.jellyAnimator = JellyAnimator(presentation:presentation)
         self.jellyAnimator?.prepare(viewController: viewController)
         self.present(viewController, animated: true, completion: nil)
-        
-
     }
+    
+    func display_welcome(){
+        //Jelly Animation required
+        print("display_welcome")
+        self.guided_user()
+        let viewController : WelcomeAlertViewController = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeAlertViewController") as! WelcomeAlertViewController
+        
+        
+        var midy = (self.view.frame.height / 2) - (300 / 2)
+        let alertPresentation = JellySlideInPresentation(dismissCurve: .linear,
+                                                         presentationCurve: .linear,
+                                                         cornerRadius: 8,
+                                                         backgroundStyle: .blur(effectStyle: .dark),
+                                                         jellyness: .jellier,
+                                                         duration: .normal,
+                                                         directionShow: .bottom,
+                                                         directionDismiss: .bottom,
+                                                         widthForViewController: .custom(value:350),
+                                                         heightForViewController: .custom(value:375),
+                                                         horizontalAlignment: .center,
+                                                         verticalAlignment: .top,
+                                                         marginGuards: UIEdgeInsets(top: 100, left: 5, bottom: 40, right: 5))
+        
+        
+        let presentation = alertPresentation
+        self.jellyAnimator = JellyAnimator(presentation:presentation)
+        self.jellyAnimator!.prepare(viewController: viewController)
+        self.present(viewController, animated: true, completion: nil)
+//        viewController.doneButton.addTarget(self, action: "display_guide_for_topics", for: .touchUpInside)
+    }
+
+    
     func guided_user(){
         // save knows_to_swipe_topics, so this alert doesn't show again
         let realm = try! Realm()
@@ -1869,7 +2102,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         }
         if segue.identifier == "view channel"{
-            let vc : ChannelViewController = segue.destination as! ChannelViewController
+            let vvc : UINavigationController = segue.destination as! UINavigationController
+            let vc : ChannelViewController = vvc.childViewControllers.first as! ChannelViewController
             vc.channel_id = channel_id!
         }
         
@@ -1946,5 +2180,15 @@ extension UIImage {
 extension Collection where Indices.Iterator.Element == Index {
     subscript (safe index: Index) -> Generator.Element? {
         return indices.contains(index) ? self[index] : nil
+    }
+}
+
+extension String {
+    var numberOfVowels: Int {
+        let vowels = "aeiou"
+        let vowelsSet = CharacterSet(charactersIn: vowels)
+        let strippedComponents = lowercased().components(separatedBy: vowelsSet)
+        let stripped = strippedComponents.joined(separator: "")
+        return characters.count - stripped.characters.count
     }
 }

@@ -34,7 +34,9 @@ class ArticleViewController: ScrollingNavigationViewController, UIWebViewDelegat
     @IBOutlet var progressView: UIProgressView!
     @IBOutlet var unwind_homeVC_button : UIButton!
     @IBOutlet var unwind_proVC_button : UIButton!
-
+    @IBOutlet var unwind_channelVC_button : UIButton!
+    @IBOutlet var unwind_videoVC_button : UIButton!
+    
     var lastOffsetY :CGFloat = 0
     var article_url : String?
     var article : Article?
@@ -81,6 +83,10 @@ class ArticleViewController: ScrollingNavigationViewController, UIWebViewDelegat
         if action == "profile"{
             // came from profile View Controller, unwind using unwind_proVC_button
             self.backButton.addTarget(self, action: #selector(ArticleViewController.unwind_profile), for: .touchUpInside)
+        }else if action == "channel"{
+            self.backButton.addTarget(self, action: "unwind_channel", for: .touchUpInside)
+        }else if action == "video"{
+            self.backButton.addTarget(self, action: #selector(ArticleViewController.unwind_video), for: .touchUpInside)
         }else{
             // came from home tab
             self.backButton.addTarget(self, action: #selector(ArticleViewController.unwind_home), for: .touchUpInside)
@@ -282,8 +288,10 @@ class ArticleViewController: ScrollingNavigationViewController, UIWebViewDelegat
             ]
             Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/articles/like_an_article", method: .post, parameters: parameters).responseJSON { (response) in
                 if let count = response.result.value as? Int{
-                    if count != 0{
-                        self.likeCountLabel.text = " \(count)"
+                    if count != nil{//0{
+                        let x = self.article!.title!.numberOfVowels + self.article!.likes
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
+                        //                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
                     }else{
                          self.likeCountLabel.text = ""
                     }
@@ -305,8 +313,11 @@ class ArticleViewController: ScrollingNavigationViewController, UIWebViewDelegat
             ]
             Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v1/articles/get_article_like_count", method: .post, parameters: parameters).responseJSON { (response) in
                 if let count = response.result.value as? Int{
-                    if count != 0{
-                        self.likeCountLabel.text = " \(count)"
+                    if count != nil{//0{
+                        let x = self.article!.title!.numberOfVowels + count
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
+                        //                        cell.likeCountLabel.text = "\(cell.l_article!.likes)" 
+                        
                     }
                     print(response.result.value)
                 }
@@ -399,9 +410,15 @@ class ArticleViewController: ScrollingNavigationViewController, UIWebViewDelegat
     func unwind_home(){
         unwind_homeVC_button.sendActions(for: .touchUpInside)
     }
-    
+    func unwind_video(){
+        unwind_videoVC_button.sendActions(for: .touchUpInside)
+    }
     func unwind_profile(){
         unwind_proVC_button.sendActions(for: .touchUpInside)
+    }
+    
+    func unwind_channel(){
+        unwind_channelVC_button.sendActions(for: .touchUpInside)
     }
 
     /*

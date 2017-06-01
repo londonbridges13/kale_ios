@@ -24,9 +24,9 @@ class SignUpInViewController: UIViewController, AlertOnboardingDelegate, Continu
     var alertView: AlertOnboarding!
     var delegate : DismissViewController?
     
-    var arrayOfImage = ["welcome","onboard1", "onboard2", "Go"]
-    var arrayOfTitle = ["Welcome to Kale","Select Your Favorite Topics", "Read Interesting Articles", "Get Started"]
-    var arrayOfDescription = ["Articles for vegans.","We have a wide range of topics to choose from. \n Gluten Free, Desserts, Seasonal Recipes, and more","Enjoy Stories, Gather Recipes, Share the fun","Sign Up and Get Started in Seconds!"]
+    var arrayOfImage = ["welcome","Collage", "granola bars", "welcome"]
+    var arrayOfTitle = ["Welcome to Kale","Follow Your Favorite Channels", "All at your Fingertips", "Get Started"]
+    var arrayOfDescription = ["Convenience for Vegans.","And find amazing recipes. \n All in one place!","Enjoy Stories, Gather Recipes, Share the fun","Sign Up and Get Started in Seconds!"]
     
     
     override func viewDidLoad() {

@@ -91,6 +91,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.topicsButton.setTitleColor(gray_space, for: .normal)
             cell.topicsButton.layer.borderColor = cell.topicsButton.titleColor(for: .normal)?.cgColor
             cell.topicsButton.layer.borderWidth = 1
+            cell.followingButton.layer.cornerRadius = 4
+            cell.followingButton.setTitleColor(gray_space, for: .normal)
+            cell.followingButton.layer.borderColor = gray_space.cgColor
+            cell.followingButton.layer.borderWidth = 1
+            cell.followingButton.addTarget(self, action: "segue_to_mychannels", for: .touchUpInside)
             cell.profileBackView.layer.cornerRadius = 6
             cell.profileImageView.layer.cornerRadius = 4
             
@@ -497,7 +502,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     func segue_to_home(){
         performSegue(withIdentifier: "segue_to_home", sender: self)
-//        unwind_to_home_button.sendActions(for: .touchUpInside)
+        //        unwind_to_home_button.sendActions(for: .touchUpInside)
+    }
+    
+    func segue_to_mychannels(){
+//        performSegue(withIdentifier: "segue_to_mychannels", sender: self)
+        //        unwind_to_home_button.sendActions(for: .touchUpInside)
     }
     
     

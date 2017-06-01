@@ -35,7 +35,12 @@ class V2ArticleCell: UITableViewCell {
     var channel_id : Int?
     var done = false // make sure the cell doesn't load twice
     var l_article: Article?
-    
+    var title : String?
+    var desc : String?
+    var blogger : String?
+    var date : String?
+    var likeCount : String?
+    var like_selected : Bool?
     
     //update values
     var delegate : ArtcleCellDelegate?
@@ -45,6 +50,40 @@ class V2ArticleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        if title != nil{
+            self.titleLabel.text = title!
+        }
+        if desc != nil{
+            self.descLabel.text = desc!
+        }
+        if blogger != nil{
+            self.bloggerLabel.text = blogger!
+        }
+        if date != nil{
+            self.dateLabel.text = date!
+        }
+        if likeCount != nil{
+            self.likeCountLabel.text = likeCount!
+        }
+        if like_selected != nil{
+            self.likeButton.isSelected = like_selected!
+        }
+        
+        if self.l_article != nil{
+            if self.l_article!.user_like == true{
+                // full red circle
+                self.likeButton.setImage(UIImage(named: "selected heart icon"), for: .normal)
+            }else{
+                self.likeButton.setImage(UIImage(named: "red heart icon"), for: .normal)
+            }   
+        }else{
+            // can't find article, set default like button
+            self.likeButton.setImage(UIImage(named: "red heart icon"), for: .normal)
+            self.likeCountLabel.text = ""
+        }
+        
+        self.bloggerImageView.image = nil
         likeButton.addTarget(self, action: #selector(V2ArticleCell.like_article), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(V2ArticleCell.change_button), for: .touchUpInside)
         channelButton.addTarget(self, action: "view_channel", for: .touchUpInside)
@@ -176,7 +215,8 @@ class V2ArticleCell: UITableViewCell {
                     self.l_article!.likes = count
                     self.update_article()
                     if count != 0{
-                        self.likeCountLabel.text = " \(count)"
+                        let x = self.titleLabel.text!.numberOfVowels + count
+                        self.likeCountLabel.text = " \(x)"//" \(count)"
                     }else{
                         self.likeCountLabel.text = ""
                     }

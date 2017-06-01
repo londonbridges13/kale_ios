@@ -33,7 +33,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     var selected_video: Video?
     var loadedHomeVC = false
     var loaded_all_cells = false
-    var isNewDataLoading = false
+    var isNewDataLoading = true
     var pagination = 1
     var action = ""
     
@@ -43,8 +43,10 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableview.delegate = self
         tableview.dataSource = self
         self.backButton.addTarget(self, action: "go_back", for: .touchUpInside)
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+
         self.get_channel_info()
+        self.get_channel_articles()
         // Do any additional setup after loading the view.
     }
 
@@ -54,13 +56,17 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    
+    @IBAction func unwind_to_ChannelVC(segue : UIStoryboardSegue){
+        
+    }
     
     func go_back(){
         if action != ""{
             if action == "home"{
+                print("unwinding home")
                 self.unwindToHomeVCButton.sendActions(for: .touchUpInside)
             }else if action == "video"{
+                print("unwinding video")
                 self.unwindToVideoVCButton.sendActions(for: .touchUpInside)
             }else if action == "somewhere else"{
                 
@@ -71,13 +77,28 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //tableview
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results.count + 1 // For header cell and loading cell
+        return results.count + 2 // For header cell and loading cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var indexx = indexPath.row - 1
         if indexPath.row == 0{
             let cell : ChannelDescriptionCell = tableview.dequeueReusableCell(withIdentifier: "ChannelDescriptionCell", for: indexPath) as! ChannelDescriptionCell
+            
+            cell.fake_count = self.titleLabel.text!.characters.count
+
+            if self.resource != nil{
+                cell.count_posts(id: self.resource!.id!)
+                cell.count_subscribers(id: self.resource!.id!)
+                cell.is_subscribed(id: self.resource!.id!)
+                cell.get_description(id: self.resource!.id!)
+            }else if self.channel_id != nil{
+                print("doing channel id")
+                cell.count_posts(id: self.channel_id!)
+                cell.count_subscribers(id: self.channel_id!)
+                cell.is_subscribed(id: self.channel_id!)
+                cell.get_description(id: self.channel_id!)
+            }
             if self.resource != nil{
                 cell.get_channel_image(url: self.resource!.blogger_image_url!)
             }
@@ -85,14 +106,14 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
             return cell
         }else if indexPath.row > results.count{
             //LoadingCell
-            let cell : LoadingCell = tableview.dequeueReusableCell(withIdentifier: "LoadingCell", for: indexPath) as! LoadingCell
+            let cell : LoadingCell = tableview.dequeueReusableCell(withIdentifier: "LoadingCellChannel", for: indexPath) as! LoadingCell
             
             
             if !isNewDataLoading{
-                pagination += 1
                 isNewDataLoading = true
+                pagination += 1
                 continue_channel_articles()
-
+                
             }
             
             
@@ -106,7 +127,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
             return cell
         }else if results.count > indexx && results[indexx].article != nil{
             // Display articles
-            let cell: V2ArticleCell = tableview.dequeueReusableCell(withIdentifier: "V2ArticleCell", for: indexPath) as! V2ArticleCell
+            let cell: V2ArticleCell = tableview.dequeueReusableCell(withIdentifier: "V2ArticleCellChannel", for: indexPath) as! V2ArticleCell
             
             cell.delegate = self
             if results[indexx].article != nil{
@@ -145,10 +166,12 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                     cell.likeButton.isSelected = false
                 }else{
                     // set like count label and heartbutton
-                    if cell.l_article!.likes == 0{
+                    if cell.l_article!.likes == nil{
                         cell.likeCountLabel.text = ""
                     }else{
-                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
+                        let x = cell.l_article!.title!.numberOfVowels + cell.l_article!.likes
+                        cell.likeCountLabel.text = " \(x)"//" \(count)"
+                        //                        cell.likeCountLabel.text = "\(cell.l_article!.likes)"
                     }
                 }
                 
@@ -177,7 +200,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             return cell
         }else if results.count > indexx && results[indexx].video != nil{
-            let cell: VideoCell = tableview.dequeueReusableCell(withIdentifier: "VideoCellHome", for: indexPath) as! VideoCell
+            let cell: VideoCell = tableview.dequeueReusableCell(withIdentifier: "VideoCellChannel", for: indexPath) as! VideoCell
             print("Showing video cell")
             // title
             if results[indexx].video!.title != nil{
@@ -191,8 +214,13 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             tableView.estimatedRowHeight = 275
             
+            if results.count == indexPath.row{
+                isNewDataLoading = false
+                print("isNewDataLoading = false")
+            }
+            
             return cell
-        }else{// if results.count > 0 && results[indexx].product != nil{
+        }else{ //if results.count > indexx && results[indexx].product != nil{
             // Display ProductCell
             let cell: ProductCell = tableview.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath) as! ProductCell
             
@@ -306,10 +334,10 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         if user != nil && user?.access_token != nil && user?.client_token != nil{
             let parameters: Parameters = [
                 "access_token": user!.client_token!,
-                "uchannel": channel_id,
+                "uchannel": channel_id!,
                 "page": pagination
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/resources/display_resource_articles", method: .post, parameters: parameters).responseJSON { (response) in
                 if let articles = response.result.value as? NSArray{
                     for each in articles{
                         if let article = each as? NSDictionary{
@@ -408,7 +436,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                                     self.articles.append(a)
                                     result.article = a
                                     
-                                    //                            self.results.append(result)
+                                    self.results.append(result)
                                     //                            print(a.desc)
                                     //                            print("\(self.results.count)")
                                     self.get_article_resource(article: result)
@@ -416,6 +444,8 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                                 }
                             }
                             self.tableview.reloadData()
+                            print("first results === \(self.results.count)")
+
                         }
                     }
                 }
@@ -435,8 +465,9 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                 "uchannel": channel_id!,
                 "page": pagination
             ]
-            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/topics/display_topic_articles", method: .post, parameters: parameters).responseJSON { (response) in
+            Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/resources/display_resource_articles", method: .post, parameters: parameters).responseJSON { (response) in
                 if let articles = response.result.value as? NSArray{
+                    print(response.result.value)
                     for each in articles{
                         if let article = each as? NSDictionary{
                             var resource_type = article["resource_type"] as? String
@@ -481,17 +512,18 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                                         v.video_date = date!
                                     }
                                     
+                                    
                                     var result = Searchable()
                                     self.videos.append(v)
                                     result.video = v
-                                    
                                     self.results.append(result)
                                     
+                                    
+                                    //                            self.results.append(result)
                                     //                            print(v.desc)
                                     //                            print("\(self.results.count)")
                                     self.get_article_resource(article: result)
-                                    self.tableview.reloadData()
-                                    
+                                    //                            self.tableview.reloadData()
                                 }else{
                                     // It's an article
                                     // Inside Article
@@ -533,6 +565,8 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                                     var result = Searchable()
                                     self.articles.append(a)
                                     result.article = a
+                                    self.results.append(result)
+
                                     
                                     //                            self.results.append(result)
                                     //                            print(a.desc)
@@ -543,6 +577,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                             }
                             
                             self.tableview.reloadData()
+                            print("continued results === \(self.results.count)")
                         }
                     }
                 }else{
@@ -589,7 +624,7 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                         var image_url = resource["article_image_url"] as? String // using article model to display resource and url in same query
                         if image_url != nil{
                             r.blogger_image_url = image_url!
-                            print("Hey blogger url: \(image_url!)")
+                            print("Hey channel url: \(image_url!)")
                         }
                         
                         var id = resource["id"] as? Int
@@ -599,6 +634,10 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
                         
                         article.article?.resource = r // already grabs image url
                         article.video?.resource = r // already grabs image url
+                        
+                        if article.article != nil{
+                            self.did_user_like_article(article: article.article!)
+                        }
                         
                         print(r)
                         
@@ -652,7 +691,6 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
         article.set_likes = true
         var searchable = Searchable()
         searchable.article = article
-        results.append(searchable)
         //            results[index].article = article
         self.tableview.reloadData()
         //        }else{
@@ -739,14 +777,29 @@ class ChannelViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "channel_to_article"{
+            let vc : ArticleViewController = segue.destination as! ArticleViewController
+            vc.article_url = selected_article_url!
+            vc.article = self.selected_article
+            vc.action = "channel"
+        }
+        if segue.identifier == "channel_to_video"{
+            let vc : VideoViewController = segue.destination as! VideoViewController
+            vc.url_string = selected_article_url!
+            vc.current_video = self.selected_video!
+            vc.action = "channel"
+        }
+
+
+        
     }
-    */
+    
 
 }
