@@ -1780,11 +1780,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
                 let adelayInSeconds = 0.25
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + adelayInSeconds) {
-//                    self.display_guide_for_topics()
+                    self.display_guide_for_topics()
                 }
                 let delayInSeconds = 0.25
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
-                    self.display_welcome()
+//                    self.display_welcome()
                 }
 
             }else{

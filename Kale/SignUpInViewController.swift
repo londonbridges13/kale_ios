@@ -25,7 +25,7 @@ class SignUpInViewController: UIViewController, AlertOnboardingDelegate, Continu
     var delegate : DismissViewController?
     
     var arrayOfImage = ["welcome","Collage", "granola bars", "welcome"]
-    var arrayOfTitle = ["Welcome to Kale","Follow Your Favorite Channels", "All at your Fingertips", "Get Started"]
+    var arrayOfTitle = ["Welcome to Technio","Follow Your Favorite Channels", "All at your Fingertips", "Get Started"]
     var arrayOfDescription = ["Convenience for Vegans.","And find amazing recipes. \n All in one place!","Enjoy Stories, Gather Recipes, Share the fun","Sign Up and Get Started in Seconds!"]
     
     

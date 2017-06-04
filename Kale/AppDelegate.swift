@@ -219,6 +219,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(user!.email)
                 print(user!.password)
                 print("Launch Count: \(user!.launch_count)")
+                
+                // send lauch count 
+                if user != nil && user?.access_token != nil && user?.client_token != nil{
+                    // API Call for user profile pic, might not have one
+                    let parameters: Parameters = [
+                        "access_token": user!.client_token!,
+                        "utoken": user!.access_token!
+                    ]
+                    Alamofire.request("https://secret-citadel-33642.herokuapp.com/api/v3/users/launch_count", method: .post, parameters: parameters).responseJSON { (response) in
+                        print("did successfully update lauch count: \(response.result.value)")
+                    }
+                }
             }
         }else{
             // No User, Create one

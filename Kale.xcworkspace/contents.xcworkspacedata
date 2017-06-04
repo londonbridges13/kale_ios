@@ -2,12 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "absolute:/Users/LyndonMcKay/Desktop/Kale/Kale.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Kale.xcodeproj">
+      location = "absolute:/Users/LyndonMcKay/Desktop/Kale/Kale.xcodeproj">
    </FileRef>
 </Workspace>
